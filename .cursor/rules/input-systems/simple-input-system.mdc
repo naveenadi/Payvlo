@@ -1,0 +1,77 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: Interactive task loop system with user feedback for iterative task execution
+globs: .cursor/scripts/simple-input.py
+alwaysApply: true
+---
+
+# Interactive Task Loop System
+
+This rule establishes an interactive feedback loop for iterative task execution, allowing continuous user input to guide development workflow.
+
+## 🔄 Core Workflow
+
+### 1. **Initialization**
+
+Check if [simple-input.py](mdc:.cursor/scripts/simple-input.py) exists in the scripts directory.
+
+If it doesn't exist, create it with the following content:
+
+```python
+# simple-input.py
+user_input = input("prompt: ")
+```
+
+### 2. **Interactive Loop Process**
+
+1. **Execute Assigned Tasks**: Complete the current development tasks
+2. **Prompt for Input**: Run the input script in terminal:
+   ```bash
+   uv run .cursor/scripts/simple-input.py
+   ```
+3. **Terminal Integration**: Ensure terminal opens in the chat window itself
+4. **Process User Feedback**: Read and interpret user input
+5. **Adapt Workflow**: Based on input, determine next set of tasks
+6. **Repeat Cycle**: Continue the loop for iterative development
+
+### 3. **Exit Condition**
+
+- User enters `"stop"` → Exit loop and terminate process
+- User enters `"pause"` → Pause for extended discussion
+- Empty input → Continue with current workflow
+
+## 🎯 Integration with AURA
+
+This interactive loop works seamlessly with the AURA development assistant:
+
+- **Planning Phase**: User input guides task prioritization in [plan.md](mdc:plan.md)
+- **Execution Phase**: User feedback adjusts implementation approach
+- **Review Phase**: User validates completed work and suggests next steps
+
+## 📝 Example Interactions
+
+**Typical Flow:**
+```
+prompt: Add error handling to the GST validation
+→ AI adds error handling task to plan.md and implements
+prompt: Make the UI more responsive
+→ AI updates CSS and responsive design patterns
+prompt: stop
+→ AI exits the interactive loop
+```
+
+**Project Context Integration:**
+- User input can reference current [plan.md](mdc:plan.md) goals
+- Feedback integrates with active development phase
+- Suggestions automatically update project blueprint
+
+## ⚠️ Best Practices
+
+- Keep prompts specific and actionable
+- Reference existing project structure when giving feedback  
+- Use "stop" only when ready to exit completely
+- Leverage the loop for incremental refinements

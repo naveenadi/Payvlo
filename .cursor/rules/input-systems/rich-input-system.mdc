@@ -1,0 +1,280 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+description: Enhanced markdown-based input system for rich prompts with image support and complex formatting
+globs: prompt.md, .cursor/scripts/rich-input.py
+alwaysApply: true
+---
+
+# Rich Input System
+
+This rule establishes an enhanced input system using markdown files instead of simple command line prompts, enabling rich content, complex formatting, and image attachments.
+
+## 🔄 Core Components
+
+### 1. **Input File Structure**
+
+Create [prompt.md](mdc:prompt.md) in the root directory for rich user input:
+
+```markdown
+# My Development Request
+
+## Context
+Current working on the GST validation feature...
+
+## Request
+Please implement error handling with the following requirements:
+- Validate GSTIN format
+- Handle network timeouts
+- Show user-friendly error messages
+
+## Images
+![Error Dialog Mockup](mdc:data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...)
+
+## Code Reference
+```javascript
+// Example of current validation
+function validateGSTIN(gstin) {
+  // needs error handling
+}
+```
+
+## Priority
+High - blocking next development phase
+```
+
+### 2. **Enhanced Reader Script**
+
+Create or update [rich-input.py](mdc:.cursor/scripts/rich-input.py) with markdown parsing capabilities:
+
+```python
+# rich-input.py
+import os
+import re
+import base64
+from pathlib import Path
+
+def read_markdown_input():
+    """Read and parse rich markdown input with image support."""
+    prompt_file = Path("prompt.md")
+    
+    if not prompt_file.exists():
+        create_template_prompt()
+        print("📝 Created prompt.md template. Please edit it and run again.")
+        return None
+    
+    content = prompt_file.read_text(encoding='utf-8')
+    
+    # Parse markdown content
+    parsed_input = {
+        'raw_content': content,
+        'title': extract_title(content),
+        'sections': extract_sections(content),
+        'images': extract_images(content),
+        'code_blocks': extract_code_blocks(content),
+        'priority': extract_priority(content)
+    }
+    
+    return parsed_input
+
+def create_template_prompt():
+    """Create a template prompt.md file."""
+    template = """# Development Request
+
+## Context
+Describe the current project state and what you're working on...
+
+## Request
+What specifically do you want me to help with?
+
+## Images (Optional)
+![Description](mdc:data:image/png;base64,BASE64_STRING_HERE)
+
+## Code Reference (Optional)
+```language
+// Relevant code here
+```
+
+## Priority
+Low | Medium | High
+"""
+    
+    with open("prompt.md", "w", encoding='utf-8') as f:
+        f.write(template)
+
+def extract_title(content):
+    """Extract the main title from markdown."""
+    match = re.search(r'^# (.+)$', content, re.MULTILINE)
+    return match.group(1) if match else "Untitled Request"
+
+def extract_sections(content):
+    """Extract all sections with their content."""
+    sections = {}
+    current_section = None
+    
+    for line in content.split('\n'):
+        if line.startswith('## '):
+            current_section = line[3:].strip()
+            sections[current_section] = []
+        elif current_section and line.strip():
+            sections[current_section].append(line)
+    
+    return {k: '\n'.join(v) for k, v in sections.items()}
+
+def extract_images(content):
+    """Extract base64 images from markdown."""
+    pattern = r'!\[([^\]]*)\]\(data:image/([^;]+);base64,([^)]+)\)'
+    matches = re.findall(pattern, content)
+    
+    return [
+        {
+            'alt_text': match[0],
+            'format': match[1],
+            'data': match[2]
+        }
+        for match in matches
+    ]
+
+def extract_code_blocks(content):
+    """Extract code blocks with language info."""
+    pattern = r'```(\w+)?\n(.*?)\n```'
+    matches = re.findall(pattern, content, re.DOTALL)
+    
+    return [
+        {
+            'language': match[0] or 'text',
+            'code': match[1].strip()
+        }
+        for match in matches
+    ]
+
+def extract_priority(content):
+    """Extract priority level from content."""
+    priority_match = re.search(r'(?:Priority|priority):\s*(High|Medium|Low)', content)
+    return priority_match.group(1) if priority_match else "Medium"
+
+if __name__ == "__main__":
+    result = read_markdown_input()
+    if result:
+        print("📖 Rich input parsed successfully!")
+        print(f"Title: {result['title']}")
+        print(f"Priority: {result['priority']}")
+        if result['images']:
+            print(f"Images found: {len(result['images'])}")
+        if result['code_blocks']:
+            print(f"Code blocks: {len(result['code_blocks'])}")
+```
+
+### 3. **Integration Workflow**
+
+**Step-by-Step Process:**
+
+1. **Create/Edit Request**: Write your request in [prompt.md](mdc:prompt.md)
+2. **Run Reader**: Execute the enhanced input reader:
+   ```bash
+   uv run .cursor/scripts/rich-input.py
+   ```
+3. **AI Processing**: AI receives parsed rich content with all components
+4. **Cleanup**: Archive or clear [prompt.md](mdc:prompt.md) after processing
+
+## 🎯 AURA Integration
+
+### Automatic Plan Updates
+
+When rich input is processed, automatically suggest updates to [plan.md](mdc:plan.md):
+
+```python
+def suggest_plan_updates(parsed_input):
+    """Suggest plan.md updates based on rich input."""
+    suggestions = []
+    
+    if parsed_input['priority'] == 'High':
+        suggestions.append("Move to Current Goal in plan.md")
+    
+    if parsed_input['code_blocks']:
+        suggestions.append("Add technical implementation tasks")
+    
+    if parsed_input['images']:
+        suggestions.append("Update UI/UX requirements based on mockups")
+    
+    return suggestions
+```
+
+### Context Awareness
+
+Rich input integrates with AURA protocols:
+- **Blueprint Protocol**: Markdown content informs [plan.md](mdc:plan.md) updates
+- **Context Protocol**: Images and code provide visual/technical context
+- **Action Protocol**: Priority levels guide Planning vs Doing mode decisions
+
+## 📸 Image Support
+
+### Supported Formats
+- **PNG**: `data:image/png;base64,BASE64_STRING`
+- **JPEG**: `data:image/jpeg;base64,BASE64_STRING`
+- **SVG**: `data:image/svg+xml;base64,BASE64_STRING`
+
+### Image Use Cases
+- **UI Mockups**: Visual designs for implementation
+- **Error Screenshots**: Bug reports with visual evidence
+- **Architecture Diagrams**: System design illustrations
+- **Design References**: Style guides and visual inspiration
+
+### Image Processing Example
+```python
+def save_image_from_base64(image_data, filename):
+    """Save base64 image to file for processing."""
+    image_bytes = base64.b64decode(image_data['data'])
+    
+    with open(f"temp_{filename}.{image_data['format']}", "wb") as f:
+        f.write(image_bytes)
+    
+    return f"temp_{filename}.{image_data['format']}"
+```
+
+## 🔄 Enhanced Workflow
+
+### Rich Input Loop
+1. **Prepare**: Edit [prompt.md](mdc:prompt.md) with rich content
+2. **Parse**: Run [rich-input.py](mdc:.cursor/scripts/rich-input.py) to process markdown
+3. **Process**: AI receives structured data with all rich content
+4. **Execute**: Perform requested tasks with full context
+5. **Update**: Suggest [plan.md](mdc:plan.md) updates based on input
+6. **Archive**: Move completed prompts to archive folder
+
+### Template Management
+```bash
+# Create new request from template
+cp prompt-template.md prompt.md
+
+# Archive completed request
+mv prompt.md archive/prompt-$(date +%Y%m%d-%H%M).md
+```
+
+## ⚡ Best Practices
+
+- **Structure**: Use clear headings for different input types
+- **Context**: Always provide project context for better responses
+- **Images**: Use descriptive alt-text for accessibility
+- **Code**: Include language specification for syntax highlighting
+- **Priority**: Set realistic priority levels
+- **Cleanup**: Archive processed prompts to avoid confusion
+
+## 🔗 Integration with Existing Systems
+
+This enhanced system works alongside:
+- **simple-input-system.mdc**: Fallback to simple prompts when needed
+- **aura-development-assistant.mdc**: Rich input informs AURA protocols
+- **Interactive loops**: Can switch between markdown and terminal input
+
+**Command Selection:**
+```bash
+# Simple prompt (existing system)
+uv run .cursor/scripts/simple-input.py
+
+# Rich markdown input (new system)
+uv run .cursor/scripts/rich-input.py
+```
