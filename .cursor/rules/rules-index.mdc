@@ -1,0 +1,198 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# 📋 Cursor Rules Master Index
+
+This is the central navigation hub for all Cursor rules in the project. Use this index to understand available rules, their purposes, and when to apply them.
+
+## 🗂️ Available Rules
+
+### Core System Rules
+
+#### [cursor-rules.mdc](mdc:.cursor/rules/cursor-rules.mdc)
+**Purpose**: Guidelines for creating and managing Cursor rules  
+**When to Use**: When adding new rules or modifying existing ones  
+**Key Features**:
+- File location and naming conventions
+- Rule structure and formatting
+- Markdown syntax and Cursor-specific extensions
+- File referencing patterns
+
+#### [rules-index.mdc](mdc:.cursor/rules/rules-index.mdc)
+**Purpose**: This master index file  
+**When to Use**: For navigation and rule discovery  
+**Key Features**:
+- Complete rule inventory
+- Usage guidelines and best practices
+- Quick reference for rule purposes
+
+### Development Workflow Rules
+
+#### [aura-development-assistant.mdc](mdc:.cursor/rules/aura-development-assistant.mdc)
+**Purpose**: AURA (Architectural Unit for Reasoning & Action) - Agentic AI partner for software development  
+**When to Use**: For architectural decisions, project planning, and systematic development approaches  
+**Key Features**:
+- Living project blueprint management
+- Structured development workflows
+- Architectural reasoning patterns
+
+#### [mcp-tools.mdc](mdc:.cursor/rules/mcp-tools.mdc)
+**Purpose**: Comprehensive guide to MCP (Model Context Protocol) tools  
+**When to Use**: When working with external APIs, data processing, or need dynamic tool discovery  
+**Key Features**:
+- Memory and knowledge management tools
+- Web search and information retrieval
+- Library documentation access
+- Dynamic tool discovery with MCP proxy
+- Advanced workflow integration patterns
+
+### Input & Interaction Systems
+
+#### [simple-input-system.mdc](mdc:.cursor/rules/input-systems/simple-input-system.mdc)
+**Purpose**: Interactive task loop system with simple terminal-based user feedback  
+**When to Use**: For iterative development with quick user input and course corrections  
+**Key Features**:
+- Simple terminal prompt interface
+- Interactive feedback loop for task execution
+- Integration with AURA development workflow
+- Exit conditions and workflow control
+
+#### [rich-input-system.mdc](mdc:.cursor/rules/input-systems/rich-input-system.mdc)
+**Purpose**: Enhanced markdown-based input system with image support and complex formatting  
+**When to Use**: For complex requests requiring visual mockups, detailed specifications, or rich content  
+**Key Features**:
+- Markdown-based input files (prompt.md)
+- Base64 image support for mockups and diagrams
+- Code block parsing and syntax highlighting
+- Priority-based task classification
+- Enhanced AURA protocol integration
+
+### Continuous Improvement Rules
+
+#### [self-improvement.mdc](mdc:.cursor/rules/self-improvement.mdc)
+**Purpose**: Guidelines for continuously improving Cursor rules based on emerging patterns  
+**When to Use**: During code reviews, refactoring, or when identifying new patterns  
+**Key Features**:
+- Rule improvement triggers
+- Pattern recognition guidelines
+- Rule quality assessment
+- Deprecation and update processes
+
+## 🎯 Rule Selection Guide
+
+### For New Projects
+1. Start with [aura-development-assistant.mdc](mdc:.cursor/rules/aura-development-assistant.mdc) for architectural planning
+2. Set up [simple-input-system.mdc](mdc:.cursor/rules/input-systems/simple-input-system.mdc) for interactive development
+3. Use [mcp-tools.mdc](mdc:.cursor/rules/mcp-tools.mdc) for external integrations and research
+4. Reference [cursor-rules.mdc](mdc:.cursor/rules/cursor-rules.mdc) when creating project-specific rules
+
+### For Existing Projects
+1. Check [self-improvement.mdc](mdc:.cursor/rules/self-improvement.mdc) for optimization opportunities
+2. Use [mcp-tools.mdc](mdc:.cursor/rules/mcp-tools.mdc) for enhanced development capabilities
+3. Apply [aura-development-assistant.mdc](mdc:.cursor/rules/aura-development-assistant.mdc) for systematic improvements
+4. Consider [rich-input-system.mdc](mdc:.cursor/rules/input-systems/rich-input-system.mdc) for complex requirements
+
+### For Interactive Development
+1. **Quick Iterations**: Use [simple-input-system.mdc](mdc:.cursor/rules/input-systems/simple-input-system.mdc) for rapid feedback
+2. **Complex Requests**: Use [rich-input-system.mdc](mdc:.cursor/rules/input-systems/rich-input-system.mdc) for detailed specs
+3. **Visual Requirements**: [rich-input-system.mdc](mdc:.cursor/rules/input-systems/rich-input-system.mdc) for mockups and diagrams
+4. **Continuous Workflow**: Combine input systems with [aura-development-assistant.mdc](mdc:.cursor/rules/aura-development-assistant.mdc)
+
+### For Rule Management
+1. Always reference [cursor-rules.mdc](mdc:.cursor/rules/cursor-rules.mdc) for proper formatting
+2. Use [self-improvement.mdc](mdc:.cursor/rules/self-improvement.mdc) for rule evolution
+3. Update this [rules-index.mdc](mdc:.cursor/rules/rules-index.mdc) when adding new rules
+
+## 🔄 Workflow Integration
+
+### Development Phase Integration
+```markdown
+**Planning Phase**:
+- [aura-development-assistant.mdc](mdc:.cursor/rules/aura-development-assistant.mdc) → Project blueprint and architecture
+- [mcp-tools.mdc](mdc:.cursor/rules/mcp-tools.mdc) → Research and context gathering
+- [rich-input-system.mdc](mdc:.cursor/rules/input-systems/rich-input-system.mdc) → Complex requirement gathering
+
+**Implementation Phase**:
+- [simple-input-system.mdc](mdc:.cursor/rules/input-systems/simple-input-system.mdc) → Interactive feedback loop
+- [mcp-tools.mdc](mdc:.cursor/rules/mcp-tools.mdc) → Tool discovery and integration
+- [aura-development-assistant.mdc](mdc:.cursor/rules/aura-development-assistant.mdc) → Systematic development approach
+
+**Review Phase**:
+- [self-improvement.mdc](mdc:.cursor/rules/self-improvement.mdc) → Pattern identification and rule updates
+- [cursor-rules.mdc](mdc:.cursor/rules/cursor-rules.mdc) → Rule creation for new patterns
+
+**Continuous Iteration**:
+- [simple-input-system.mdc](mdc:.cursor/rules/input-systems/simple-input-system.mdc) → Quick course corrections
+- [rich-input-system.mdc](mdc:.cursor/rules/input-systems/rich-input-system.mdc) → Detailed feedback with visuals
+```
+
+### Rule Maintenance Workflow
+```markdown
+1. **Monitor**: Use patterns from [self-improvement.mdc](mdc:.cursor/rules/self-improvement.mdc)
+2. **Analyze**: Apply guidelines from [cursor-rules.mdc](mdc:.cursor/rules/cursor-rules.mdc)
+3. **Update**: Modify existing rules or create new ones
+4. **Index**: Update this master index with new rules
+5. **Integrate**: Ensure new rules work with [aura-development-assistant.mdc](mdc:.cursor/rules/aura-development-assistant.mdc) and [mcp-tools.mdc](mdc:.cursor/rules/mcp-tools.mdc)
+```
+
+## 📁 Rule Organization
+
+### Directory Structure
+```
+.cursor/rules/
+├── rules-index.mdc           # This master index
+├── cursor-rules.mdc          # Rule creation guidelines
+├── aura-development-assistant.mdc  # Development workflow system
+├── mcp-tools.mdc            # MCP tool integration guide
+├── self-improvement.mdc     # Rule evolution guidelines
+├── input-systems/           # Interactive input and feedback systems
+│   ├── simple-input-system.mdc    # Terminal-based interactive loop
+│   └── rich-input-system.mdc      # Markdown-based rich input
+└── [future-rules.mdc]       # Additional domain-specific rules
+```
+
+### Rule Categories
+- **🏗️ Architecture**: [aura-development-assistant.mdc](mdc:.cursor/rules/aura-development-assistant.mdc)
+- **🔧 Tools**: [mcp-tools.mdc](mdc:.cursor/rules/mcp-tools.mdc)
+- **🎮 Interaction**: [simple-input-system.mdc](mdc:.cursor/rules/input-systems/simple-input-system.mdc), [rich-input-system.mdc](mdc:.cursor/rules/input-systems/rich-input-system.mdc)
+- **📋 Meta**: [cursor-rules.mdc](mdc:.cursor/rules/cursor-rules.mdc), [rules-index.mdc](mdc:.cursor/rules/rules-index.mdc)
+- **🔄 Process**: [self-improvement.mdc](mdc:.cursor/rules/self-improvement.mdc)
+
+## 🚀 Quick Start Guide
+
+### For First-Time Users
+1. **Read**: [cursor-rules.mdc](mdc:.cursor/rules/cursor-rules.mdc) to understand rule basics
+2. **Setup**: Configure [simple-input-system.mdc](mdc:.cursor/rules/input-systems/simple-input-system.mdc) for interactive development
+3. **Plan**: Use [aura-development-assistant.mdc](mdc:.cursor/rules/aura-development-assistant.mdc) for project structure
+4. **Enhance**: Leverage [mcp-tools.mdc](mdc:.cursor/rules/mcp-tools.mdc) for advanced capabilities
+5. **Improve**: Apply [self-improvement.mdc](mdc:.cursor/rules/self-improvement.mdc) continuously
+
+### For Adding New Rules
+1. **Check**: This index to avoid duplication
+2. **Follow**: [cursor-rules.mdc](mdc:.cursor/rules/cursor-rules.mdc) formatting guidelines
+3. **Integrate**: Ensure compatibility with existing rules
+4. **Update**: This master index with the new rule
+5. **Apply**: [self-improvement.mdc](mdc:.cursor/rules/self-improvement.mdc) quality checks
+
+## ⚠️ Best Practices
+
+- **Always check this index first** before creating new rules
+- **Reference specific rules** using the [filename.mdc](mdc:filename.mdc) format
+- **Keep rules focused** on specific domains or purposes
+- **Update the index** whenever you add, modify, or remove rules
+- **Follow naming conventions** from [cursor-rules.mdc](mdc:.cursor/rules/cursor-rules.mdc)
+- **Apply continuous improvement** using [self-improvement.mdc](mdc:.cursor/rules/self-improvement.mdc)
+
+## 📊 Rule Statistics
+
+**Total Rules**: 7 active rules  
+**Categories**: 5 (Architecture, Tools, Interaction, Meta, Process)  
+**Always Applied**: 5 rules ([aura-development-assistant.mdc](mdc:.cursor/rules/aura-development-assistant.mdc), [mcp-tools.mdc](mdc:.cursor/rules/mcp-tools.mdc), [simple-input-system.mdc](mdc:.cursor/rules/input-systems/simple-input-system.mdc), [rich-input-system.mdc](mdc:.cursor/rules/input-systems/rich-input-system.mdc), [self-improvement.mdc](mdc:.cursor/rules/self-improvement.mdc))  
+**Conditional**: 2 rules ([cursor-rules.mdc](mdc:.cursor/rules/cursor-rules.mdc), [rules-index.mdc](mdc:.cursor/rules/rules-index.mdc))  
+**Nested Structure**: 1 subdirectory (`input-systems/` with 2 rules)
+
+---
+
+💡 **Remember**: This index is your starting point for all rule-related activities. Keep it updated and use it as your navigation hub for the Cursor rules ecosystem.

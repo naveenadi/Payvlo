@@ -1,0 +1,314 @@
+---
+description: Comprehensive guide to all available MCP (Model Context Protocol) tools for enhanced development workflows
+globs: "**/*"
+alwaysApply: true
+---
+
+# MCP Tools Reference Guide
+
+This rule documents all available MCP (Model Context Protocol) tools and provides guidance on when and how to use them effectively in development workflows.
+
+## 🧠 Memory & Knowledge Management
+
+### Knowledge Graph Tools
+These tools provide persistent memory and relationship mapping capabilities:
+
+- **`mcp_memory_create_entities`**: Create new entities in the knowledge graph
+  - Use for: Storing information about people, projects, concepts, technologies
+  - Example: Creating entities for project stakeholders, architectural components
+  
+- **`mcp_memory_create_relations`**: Create relationships between entities  
+  - Use for: Mapping dependencies, hierarchies, associations
+  - Example: "Project A uses Technology B", "User X works on Feature Y"
+
+- **`mcp_memory_add_observations`**: Add new observations to existing entities
+  - Use for: Updating entity information with new insights or changes
+  - Example: Adding progress updates, new requirements, learned behaviors
+
+- **`mcp_memory_search_nodes`**: Search entities by name, type, or content
+  - Use for: Finding relevant information before creating duplicates
+  - Example: Searching for existing user profiles, project details
+
+- **`mcp_memory_open_nodes`**: Retrieve specific entities by name
+  - Use for: Getting detailed information about known entities
+  - Example: Retrieving user preferences, project specifications
+
+- **`mcp_memory_read_graph`**: Read the entire knowledge graph
+  - Use for: Understanding the full context and relationships
+  - Example: Project overview, stakeholder mapping
+
+- **`mcp_memory_delete_entities`**: Remove entities from the graph
+  - Use for: Cleaning up outdated or incorrect information
+  - Example: Removing obsolete features, inactive users
+
+### Best Practices for Memory Tools
+```markdown
+## Memory Workflow
+1. **Always search first** - Use `search_nodes` before creating new entities
+2. **Build relationships** - Connect related entities with meaningful relations  
+3. **Update observations** - Keep entity information current and relevant
+4. **Clean periodically** - Remove outdated entities and relations
+```
+
+## 🔍 Web Search & Information Retrieval
+
+### Tavily Search Tools (Premium AI Search)
+Advanced AI-powered search with comprehensive results:
+
+- **`mcp_Tavily_Expert_tavily_start_tool`**: Initialize Tavily operations (REQUIRED FIRST)
+  - Use for: Starting any Tavily-based implementation or integration
+  - Example: Before building search features, getting API documentation
+
+- **`mcp_Tavily_Expert_tavily_search_tool`**: Powerful AI search engine
+  - Use for: Research, current events, technical documentation
+  - Features: Real-time results, semantic search, source ranking
+  - Example: "Latest React 18 features", "Python async best practices"
+
+- **`mcp_Tavily_Expert_tavily_extract_tool`**: Extract content from URLs
+  - Use for: Getting clean content from web pages, documents
+  - Features: Handles complex pages, extracts structured data
+  - Example: Extracting documentation, parsing technical articles
+
+### DuckDuckGo Search Tools (Free Alternative)
+Simple, privacy-focused search capabilities:
+
+- **`mcp_ddg-search_search`**: Basic web search functionality
+  - Use for: Quick searches, general information lookup
+  - Example: Finding examples, checking syntax, basic research
+
+- **`mcp_ddg-search_fetch_content`**: Fetch webpage content
+  - Use for: Simple content extraction from URLs
+  - Example: Getting blog posts, documentation pages
+
+### Web Fetch Tools
+Direct URL content retrieval:
+
+- **`mcp_fetch_fetch`**: Fetch URL content as markdown
+  - Use for: Getting specific web content, API responses
+  - Features: Markdown conversion, character limits, start indexing
+  - Example: Fetching documentation, API specs, blog posts
+
+## 📚 Library Documentation & Context
+
+### Context7 Documentation Tools
+Access to comprehensive library documentation:
+
+- **`mcp_context7_resolve-library-id`**: Find correct library identifiers
+  - Use for: Resolving package names to Context7-compatible IDs
+  - Example: "react" → "/facebook/react", "next.js" → "/vercel/next.js"
+
+- **`mcp_context7_get-library-docs`**: Fetch library documentation
+  - Use for: Getting up-to-date docs for specific libraries/versions
+  - Features: Topic filtering, token limits, version-specific docs
+  - Example: React hooks documentation, Next.js routing guide
+
+### Usage Pattern
+```bash
+# Step 1: Resolve library name
+resolve-library-id: "react"
+# Returns: "/facebook/react"
+
+# Step 2: Get documentation  
+get-library-docs: "/facebook/react", topic: "hooks"
+# Returns: Comprehensive React hooks documentation
+```
+
+## 🤔 Analysis & Reasoning
+
+### Sequential Thinking Tools
+Structured problem-solving and analysis:
+
+- **`mcp_sequential-thinking_sequentialthinking`**: Multi-step reasoning
+  - Use for: Complex problem analysis, planning, debugging
+  - Features: Branching thoughts, revisions, hypothesis testing
+  - Example: Architecture decisions, bug investigation, feature planning
+
+### When to Use Sequential Thinking
+- Breaking down complex problems into manageable steps
+- Planning multi-phase implementations  
+- Analyzing requirements with uncertainty
+- Debugging complex issues
+- Design decisions requiring multiple considerations
+
+## 🔧 Tool Integration & Discovery
+
+### MCP Proxy Tools
+Dynamic tool discovery and integration capabilities:
+
+- **`mcp_mcp-proxy_retrieve_tools`**: Search and discover tools dynamically
+  - **Purpose**: Finds and registers tools on-the-fly based on search queries
+  - **Use Cases**: 
+    - Discovering specialized tools for specific domains
+    - Finding tools when you don't know exactly what's available
+    - Expanding available capabilities during development
+  - **Best Practices**:
+    - Use descriptive search queries that match your intent
+    - Pass the original user query when possible for better matching
+    - Try both specific and general search terms
+  - **Examples**:
+    ```markdown
+    # Domain-specific discovery
+    Query: "database operations" → Returns PostgreSQL, MySQL, MongoDB tools
+    Query: "image processing" → Returns image manipulation and analysis tools
+    Query: "code analysis" → Returns linting, formatting, static analysis tools
+    
+    # Task-oriented discovery  
+    Query: "web scraping" → Returns web crawling and data extraction tools
+    Query: "API testing" → Returns HTTP client and testing framework tools
+    Query: "deployment automation" → Returns CI/CD and infrastructure tools
+    ```
+
+### Advanced Proxy Usage Patterns
+
+#### Discovery-First Workflow
+```markdown
+1. **Initial Discovery**: Use broad queries to see available tool categories
+2. **Refined Search**: Use specific queries based on discovery results  
+3. **Tool Registration**: Tools are automatically registered for immediate use
+4. **Integration**: Combine discovered tools with existing MCP capabilities
+```
+
+#### Progressive Tool Enhancement
+```markdown
+1. **Start Simple**: Begin with known tools for basic functionality
+2. **Discover Gaps**: Identify missing capabilities during development
+3. **Dynamic Expansion**: Use proxy to find specialized tools as needed
+4. **Workflow Integration**: Incorporate new tools into development patterns
+```
+
+#### Context-Aware Discovery
+```markdown
+# For development contexts:
+"debugging tools" → Code analysis, profiling, error tracking
+"testing frameworks" → Unit, integration, e2e testing tools
+"documentation generators" → API docs, README, code documentation
+
+# For data contexts:  
+"data transformation" → ETL, cleaning, validation tools
+"analytics platforms" → Metrics, dashboards, reporting tools
+"data visualization" → Charts, graphs, interactive displays
+```
+
+## 🎯 Tool Selection Guidelines
+
+### For Research & Learning
+```markdown
+**Quick Info**: DuckDuckGo search → mcp_ddg-search_search
+**Deep Research**: Tavily search → mcp_Tavily_Expert_tavily_search_tool  
+**Library Docs**: Context7 → mcp_context7_get-library-docs
+**Web Content**: Direct fetch → mcp_fetch_fetch
+```
+
+### For Knowledge Management
+```markdown
+**New Project**: Create entities for stakeholders, technologies, requirements
+**Ongoing Work**: Add observations, update relationships
+**Context Needed**: Search nodes, read graph for full picture
+**Maintenance**: Clean outdated entities and relations
+```
+
+### For Problem Solving
+```markdown
+**Simple Issues**: Direct implementation with known tools
+**Complex Problems**: Sequential thinking for structured analysis
+**Architecture Decisions**: Combine memory + sequential thinking + research tools
+**Unknown Requirements**: MCP proxy discovery → specialized tool integration
+**Domain Expertise**: Proxy discovery for specialized domain tools
+```
+
+### For Tool Discovery & Integration
+```markdown
+**Known Domain**: Search for specific tool categories (e.g., "React testing tools")
+**Unknown Domain**: Broad discovery queries (e.g., "blockchain development")
+**Missing Capability**: Gap-filling queries (e.g., "PDF manipulation tools")
+**Workflow Enhancement**: Integration-focused queries (e.g., "CI/CD automation")
+**Specialized Tasks**: Task-specific discovery (e.g., "machine learning deployment")
+```
+
+## 🔄 Workflow Integration
+
+### Typical Development Flow
+1. **Context Gathering**: Use memory tools to understand project state
+2. **Research Phase**: Tavily/DuckDuckGo for technical information  
+3. **Documentation**: Context7 for library-specific guidance
+4. **Analysis**: Sequential thinking for complex decisions
+5. **Knowledge Update**: Memory tools to capture new insights
+
+### Integration with AURA
+MCP tools enhance the AURA development workflow:
+- **Blueprint Protocol**: Memory tools maintain project context
+- **Context Protocol**: Search tools provide external knowledge
+- **Action Protocol**: Sequential thinking guides decision-making
+
+## ⚡ Performance Tips
+
+### Efficient Tool Usage
+- **Parallel Operations**: Use multiple search tools simultaneously
+- **Memory First**: Check existing knowledge before external searches
+- **Tool Chaining**: Combine tools for comprehensive results
+- **Context Preservation**: Update memory with new discoveries
+
+### Cost Optimization  
+- **Tavily**: Advanced tool - use for important research
+- **DuckDuckGo**: Free alternative for basic searches
+- **Context7**: Efficient for library-specific information
+- **Memory**: Local storage - use liberally for context
+
+## 🚀 Advanced Patterns
+
+### Multi-Tool Workflows
+```markdown
+## Research → Analyze → Remember Pattern
+1. Tavily search for latest information
+2. Sequential thinking for analysis  
+3. Memory tools to store insights
+4. Context7 for implementation details
+```
+
+### Problem-Solving Stack
+```markdown
+## Complex Issue Resolution
+1. Memory search for similar past issues
+2. Sequential thinking to break down problem
+3. Tavily search for current solutions
+4. Context7 for library-specific guidance
+5. Memory update with solution and learnings
+```
+
+### Dynamic Tool Discovery Workflow
+```markdown
+## Adaptive Development Pattern
+1. **Assess Requirements**: Analyze current development needs
+2. **Discovery Phase**: Use MCP proxy to find relevant tools
+3. **Tool Integration**: Combine discovered tools with existing workflow
+4. **Capability Enhancement**: Expand available functions dynamically
+5. **Knowledge Capture**: Update memory with new tool capabilities
+
+## Example: Building a Data Pipeline
+1. Start with: "data processing tools" discovery
+2. Discover: ETL frameworks, validation libraries, monitoring tools
+3. Integrate: Combine with Context7 for specific library docs
+4. Enhance: Use Tavily for best practices and patterns
+5. Document: Store pipeline architecture in memory graph
+```
+
+### Tool Ecosystem Integration
+```markdown
+## Multi-Tool Synergy Patterns
+
+**Discovery + Research + Implementation**:
+1. MCP Proxy → Find specialized tools
+2. Tavily → Research implementation patterns  
+3. Context7 → Get library-specific documentation
+4. Sequential Thinking → Plan integration approach
+5. Memory → Store learned patterns and solutions
+
+**Context-Driven Enhancement**:
+1. Memory → Retrieve project context and past solutions
+2. MCP Proxy → Discover tools for identified gaps
+3. Research Tools → Validate approach and find examples
+4. Implementation → Apply discovered tools to solve problems
+5. Update Memory → Capture new capabilities and patterns
+```
+
+Remember: These tools are designed to work together. The MCP proxy enables dynamic expansion of capabilities, making your development workflow adaptive and continuously improving. Combine discovery, research, analysis, and memory tools strategically for maximum effectiveness.
