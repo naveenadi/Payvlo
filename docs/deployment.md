@@ -7,11 +7,13 @@ This guide covers deploying Payvlo across different platforms and environments. 
 ## 🎯 Deployment Targets
 
 ### Desktop Applications
+
 - **Windows**: MSI Installer
 - **macOS**: DMG Package (Intel & Apple Silicon)
 - **Linux**: AppImage, DEB, RPM packages
 
 ### Web Application
+
 - **Static Hosting**: Vercel, Netlify, GitHub Pages
 - **Server Deployment**: Node.js servers, Docker containers
 - **CDN Distribution**: Global content delivery
@@ -84,6 +86,7 @@ src-tauri/target/release/bundle/
 #### Windows Deployment
 
 ##### Prerequisites
+
 ```bash
 # Install Visual Studio Build Tools
 winget install Microsoft.VisualStudio.2022.BuildTools
@@ -96,6 +99,7 @@ cargo install tauri-cli
 ```
 
 ##### Code Signing (Optional but Recommended)
+
 ```bash
 # Get code signing certificate from trusted CA
 # Configure signing in tauri.conf.json
@@ -115,6 +119,7 @@ cargo install tauri-cli
 ```
 
 ##### Build Windows Installer
+
 ```bash
 # Build MSI installer
 pnpm tauri build --target x86_64-pc-windows-msvc
@@ -123,6 +128,7 @@ pnpm tauri build --target x86_64-pc-windows-msvc
 ```
 
 ##### Distribution
+
 ```powershell
 # Test installer
 .\src-tauri\target\release\bundle\msi\Payvlo_1.0.0_x64_en-US.msi
@@ -136,6 +142,7 @@ pnpm tauri build --target x86_64-pc-windows-msvc
 #### macOS Deployment
 
 ##### Prerequisites
+
 ```bash
 # Install Xcode Command Line Tools
 xcode-select --install
@@ -146,6 +153,7 @@ rustup target add aarch64-apple-darwin
 ```
 
 ##### App Store Distribution
+
 ```bash
 # Configure App Store settings in tauri.conf.json
 {
@@ -162,6 +170,7 @@ rustup target add aarch64-apple-darwin
 ```
 
 ##### Code Signing and Notarization
+
 ```bash
 # Build universal binary
 pnpm tauri build --target universal-apple-darwin
@@ -182,6 +191,7 @@ xcrun notarytool submit "Payvlo-1.0.0.dmg" \
 ```
 
 ##### Distribution Options
+
 ```bash
 # Option 1: Mac App Store
 # Submit through App Store Connect
@@ -198,6 +208,7 @@ brew install --cask payvlo
 #### Linux Deployment
 
 ##### Prerequisites
+
 ```bash
 # Ubuntu/Debian
 sudo apt update
@@ -223,6 +234,7 @@ sudo dnf install -y \
 ```
 
 ##### Build Packages
+
 ```bash
 # Build all Linux packages
 pnpm tauri build
@@ -234,6 +246,7 @@ pnpm tauri build
 ```
 
 ##### Distribution
+
 ```bash
 # AppImage - Universal Linux binary
 # Users can download and run directly
@@ -310,31 +323,31 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          
+
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8
-          
+
       - name: Install dependencies
         run: pnpm install
-        
+
       - name: Build
         run: pnpm run build
-        
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -387,27 +400,27 @@ jobs:
     strategy:
       matrix:
         platform: [ubuntu-latest, windows-latest, macos-latest]
-    
+
     runs-on: ${{ matrix.platform }}
-    
+
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          
+
       - name: Setup Rust
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-          
+
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8
-          
+
       - name: Install dependencies (Ubuntu)
         if: matrix.platform == 'ubuntu-latest'
         run: |
@@ -421,32 +434,32 @@ jobs:
             libgtk-3-dev \
             libayatana-appindicator3-dev \
             librsvg2-dev
-            
+
       - name: Install dependencies
         run: pnpm install
-        
+
       - name: Run tests
         run: pnpm test
-        
+
       - name: Build desktop app
         run: pnpm tauri build
-        
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: desktop-${{ matrix.platform }}
           path: src-tauri/target/release/bundle/
-          
+
   create-release:
     needs: build-desktop
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Download artifacts
         uses: actions/download-artifact@v3
-        
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
@@ -463,6 +476,7 @@ jobs:
 ### Desktop Distribution
 
 #### Official Channels
+
 ```bash
 # Windows
 - Microsoft Store
@@ -481,6 +495,7 @@ jobs:
 ```
 
 #### Third-Party Channels
+
 ```bash
 # Windows
 - Chocolatey
@@ -500,6 +515,7 @@ jobs:
 ### Web Distribution
 
 #### CDN Configuration
+
 ```bash
 # Cloudflare configuration
 - Enable auto-minify (CSS, JS, HTML)
@@ -519,6 +535,7 @@ jobs:
 ### Code Signing
 
 #### Windows
+
 ```bash
 # EV Code Signing Certificate
 # From DigiCert, Sectigo, or other trusted CA
@@ -529,6 +546,7 @@ signtool sign /fd sha256 /tr http://timestamp.sectigo.com /td sha256 \
 ```
 
 #### macOS
+
 ```bash
 # Apple Developer Certificate
 # From Apple Developer Program
@@ -545,6 +563,7 @@ xcrun notarytool submit Payvlo.dmg \
 ```
 
 #### Linux
+
 ```bash
 # GPG signing for packages
 gpg --armor --detach-sign payvlo_1.0.0_amd64.deb
@@ -576,25 +595,25 @@ docker scan payvlo:latest
 import * as Sentry from '@sentry/tauri';
 
 Sentry.init({
-  dsn: 'YOUR_SENTRY_DSN',
-  environment: process.env.NODE_ENV,
+	dsn: 'YOUR_SENTRY_DSN',
+	environment: process.env.NODE_ENV
 });
 
 // Usage analytics (privacy-compliant)
 import { Analytics } from '@segment/analytics-node';
 
 const analytics = new Analytics({
-  writeKey: 'YOUR_SEGMENT_KEY',
+	writeKey: 'YOUR_SEGMENT_KEY'
 });
 
 // Track application start
 analytics.track({
-  userId: 'anonymous',
-  event: 'Application Started',
-  properties: {
-    platform: navigator.platform,
-    version: '1.0.0',
-  },
+	userId: 'anonymous',
+	event: 'Application Started',
+	properties: {
+		platform: navigator.platform,
+		version: '1.0.0'
+	}
 });
 ```
 
@@ -668,6 +687,7 @@ du -sh src-tauri/target/release/bundle/*
 ## 📋 Release Checklist
 
 ### Pre-Release
+
 - [ ] All tests passing
 - [ ] Security audit completed
 - [ ] Performance benchmarks met
@@ -678,6 +698,7 @@ du -sh src-tauri/target/release/bundle/*
 - [ ] Beta testing completed
 
 ### Release
+
 - [ ] Git tag created
 - [ ] Desktop builds generated
 - [ ] Web deployment completed
@@ -687,6 +708,7 @@ du -sh src-tauri/target/release/bundle/*
 - [ ] Monitoring enabled
 
 ### Post-Release
+
 - [ ] Release announcement
 - [ ] Update documentation sites
 - [ ] Monitor error rates
@@ -698,6 +720,7 @@ du -sh src-tauri/target/release/bundle/*
 ### Common Build Issues
 
 #### Windows
+
 ```bash
 # Missing Visual Studio Build Tools
 error: Microsoft Visual C++ 14.0 is required
@@ -709,6 +732,7 @@ error: Windows SDK not found
 ```
 
 #### macOS
+
 ```bash
 # Missing Xcode Command Line Tools
 error: xcrun: error: invalid active developer path
@@ -720,6 +744,7 @@ error: The specified item could not be found in the keychain
 ```
 
 #### Linux
+
 ```bash
 # Missing dependencies
 error: Package 'webkit2gtk-4.0' not found
@@ -749,22 +774,25 @@ Error: Cannot resolve dependencies
 ## 📚 Resources
 
 ### Documentation
+
 - [Tauri Documentation](https://tauri.app/)
 - [SvelteKit Documentation](https://kit.svelte.dev/)
 - [Vercel Documentation](https://vercel.com/docs)
 - [Netlify Documentation](https://docs.netlify.com/)
 
 ### Tools
+
 - [Tauri CLI](https://github.com/tauri-apps/tauri)
 - [GitHub Actions](https://github.com/features/actions)
 - [Docker](https://www.docker.com/)
 - [Sentry](https://sentry.io/)
 
 ### Communities
+
 - [Tauri Discord](https://discord.com/invite/SpmNs4S)
 - [Svelte Discord](https://svelte.dev/chat)
 - [GitHub Discussions](https://github.com/your-org/payvlo/discussions)
 
 ---
 
-**Note**: This deployment guide covers best practices as of 2024. Always refer to the latest platform documentation for current requirements and procedures. 
+**Note**: This deployment guide covers best practices as of 2024. Always refer to the latest platform documentation for current requirements and procedures.

@@ -41,7 +41,7 @@ Payvlo is a lightweight, cross-platform invoice generator specifically designed 
 
 ### Prerequisites
 
-- **Node.js**: v18+ 
+- **Node.js**: v18+
 - **Rust**: Latest stable (for Tauri)
 - **pnpm**: Package manager
 - **Git**: Version control
@@ -115,12 +115,12 @@ Build System: Vite + Tauri CLI
 
 ### Performance Targets
 
-| Metric | Target | Current |
-|--------|--------|---------|
-| App Size | < 5MB | TBD |
-| Memory Usage | < 100MB | TBD |
-| Startup Time | < 1 second | TBD |
-| PDF Generation | < 2 seconds | TBD |
+| Metric         | Target      | Current |
+| -------------- | ----------- | ------- |
+| App Size       | < 5MB       | TBD     |
+| Memory Usage   | < 100MB     | TBD     |
+| Startup Time   | < 1 second  | TBD     |
+| PDF Generation | < 2 seconds | TBD     |
 
 ## 💻 Development Environment
 
@@ -183,18 +183,18 @@ The Goods and Services Tax (GST) system in India requires specific calculations 
 #### Tax Structure
 
 - **CGST**: Central GST (for intra-state transactions)
-- **SGST**: State GST (for intra-state transactions) 
+- **SGST**: State GST (for intra-state transactions)
 - **IGST**: Integrated GST (for inter-state transactions)
 
 #### Tax Slabs
 
-| Rate | Items |
-|------|-------|
-| 0% | Essential goods |
-| 5% | Daily necessities |
-| 12% | Processed food items |
-| 18% | Most goods and services |
-| 28% | Luxury items |
+| Rate | Items                   |
+| ---- | ----------------------- |
+| 0%   | Essential goods         |
+| 5%   | Daily necessities       |
+| 12%  | Processed food items    |
+| 18%  | Most goods and services |
+| 28%  | Luxury items            |
 
 ### Implementation Requirements
 
@@ -202,30 +202,30 @@ The Goods and Services Tax (GST) system in India requires specific calculations 
 
 ```typescript
 interface GSTInvoice {
-  // Business Details
-  gstin: string;              // GST Identification Number
-  businessName: string;
-  businessAddress: Address;
-  
-  // Customer Details
-  customerGstin?: string;     // Optional for B2C
-  customerName: string;
-  customerAddress: Address;
-  
-  // Invoice Details
-  invoiceNumber: string;      // Sequential numbering
-  invoiceDate: Date;
-  placeOfSupply: string;      // State code
-  
-  // Line Items
-  items: InvoiceItem[];       // Products/services
-  
-  // Tax Calculations
-  cgstAmount: number;
-  sgstAmount: number;
-  igstAmount: number;
-  totalTaxAmount: number;
-  grandTotal: number;
+	// Business Details
+	gstin: string; // GST Identification Number
+	businessName: string;
+	businessAddress: Address;
+
+	// Customer Details
+	customerGstin?: string; // Optional for B2C
+	customerName: string;
+	customerAddress: Address;
+
+	// Invoice Details
+	invoiceNumber: string; // Sequential numbering
+	invoiceDate: Date;
+	placeOfSupply: string; // State code
+
+	// Line Items
+	items: InvoiceItem[]; // Products/services
+
+	// Tax Calculations
+	cgstAmount: number;
+	sgstAmount: number;
+	igstAmount: number;
+	totalTaxAmount: number;
+	grandTotal: number;
 }
 ```
 
@@ -240,24 +240,24 @@ interface GSTInvoice {
 ```typescript
 // GST calculation implementation
 function calculateGST(items: InvoiceItem[], placeOfSupply: string, businessState: string) {
-  const isInterState = placeOfSupply !== businessState;
-  
-  for (const item of items) {
-    const taxableAmount = item.quantity * item.rate;
-    const taxRate = item.gstRate;
-    
-    if (isInterState) {
-      // Inter-state: IGST only
-      item.igst = taxableAmount * (taxRate / 100);
-      item.cgst = 0;
-      item.sgst = 0;
-    } else {
-      // Intra-state: CGST + SGST
-      item.cgst = taxableAmount * (taxRate / 200); // Half of total rate
-      item.sgst = taxableAmount * (taxRate / 200); // Half of total rate
-      item.igst = 0;
-    }
-  }
+	const isInterState = placeOfSupply !== businessState;
+
+	for (const item of items) {
+		const taxableAmount = item.quantity * item.rate;
+		const taxRate = item.gstRate;
+
+		if (isInterState) {
+			// Inter-state: IGST only
+			item.igst = taxableAmount * (taxRate / 100);
+			item.cgst = 0;
+			item.sgst = 0;
+		} else {
+			// Intra-state: CGST + SGST
+			item.cgst = taxableAmount * (taxRate / 200); // Half of total rate
+			item.sgst = taxableAmount * (taxRate / 200); // Half of total rate
+			item.igst = 0;
+		}
+	}
 }
 ```
 
@@ -389,7 +389,7 @@ impl GSTCalculator {
         is_inter_state: bool,
     ) -> GSTCalculation {
         let total_tax = amount * (gst_rate / 100.0);
-        
+
         if is_inter_state {
             GSTCalculation {
                 taxable_amount: amount,
@@ -402,7 +402,7 @@ impl GSTCalculator {
         } else {
             let cgst = total_tax / 2.0;
             let sgst = total_tax / 2.0;
-            
+
             GSTCalculation {
                 taxable_amount: amount,
                 cgst,
@@ -444,6 +444,7 @@ chore: update dependencies
 ### Development Process
 
 1. **Feature Development**
+
    ```bash
    git checkout develop
    git pull origin develop
@@ -493,21 +494,16 @@ import { defineConfig } from 'vitest/config';
 import { sveltekit } from '@sveltejs/kit/vite';
 
 export default defineConfig({
-  plugins: [sveltekit()],
-  test: {
-    include: ['src/**/*.{test,spec}.{js,ts}'],
-    globals: true,
-    environment: 'jsdom',
-    coverage: {
-      reporter: ['text', 'json', 'html'],
-      exclude: [
-        'node_modules/',
-        'src/test/',
-        '**/*.d.ts',
-        '**/*.config.*',
-      ],
-    },
-  },
+	plugins: [sveltekit()],
+	test: {
+		include: ['src/**/*.{test,spec}.{js,ts}'],
+		globals: true,
+		environment: 'jsdom',
+		coverage: {
+			reporter: ['text', 'json', 'html'],
+			exclude: ['node_modules/', 'src/test/', '**/*.d.ts', '**/*.config.*']
+		}
+	}
 });
 ```
 
@@ -522,7 +518,7 @@ export default defineConfig({
 pnpm run build
 pnpm run preview
 
-# Desktop application  
+# Desktop application
 pnpm tauri build --debug
 ```
 
@@ -546,11 +542,11 @@ pnpm tauri build --target x86_64-unknown-linux-gnu  # Linux
 
 #### 1. Desktop Applications
 
-| Platform | Format | Location |
-|----------|--------|----------|
-| Windows | MSI Installer | `src-tauri/target/release/bundle/msi/` |
-| macOS | DMG Package | `src-tauri/target/release/bundle/dmg/` |
-| Linux | AppImage | `src-tauri/target/release/bundle/appimage/` |
+| Platform | Format        | Location                                    |
+| -------- | ------------- | ------------------------------------------- |
+| Windows  | MSI Installer | `src-tauri/target/release/bundle/msi/`      |
+| macOS    | DMG Package   | `src-tauri/target/release/bundle/dmg/`      |
+| Linux    | AppImage      | `src-tauri/target/release/bundle/appimage/` |
 
 #### 2. Web Application
 
@@ -591,21 +587,21 @@ const customerGstinNumber = 'GSTIN123456';
 
 // Use TypeScript interfaces
 interface Customer {
-  id: number;
-  name: string;
-  gstin?: string;
-  address: Address;
+	id: number;
+	name: string;
+	gstin?: string;
+	address: Address;
 }
 
 // Use async/await over promises
 async function fetchCustomers(): Promise<Customer[]> {
-  try {
-    const response = await api.get('/customers');
-    return response.data;
-  } catch (error) {
-    console.error('Failed to fetch customers:', error);
-    throw error;
-  }
+	try {
+		const response = await api.get('/customers');
+		return response.data;
+	} catch (error) {
+		console.error('Failed to fetch customers:', error);
+		throw error;
+	}
 }
 ```
 
@@ -627,7 +623,7 @@ pub fn calculate_gst(amount: f64, rate: f64) -> Result<f64, String> {
     if rate < 0.0 || rate > 100.0 {
         return Err("GST rate must be between 0 and 100".to_string());
     }
-    
+
     Ok(amount * (rate / 100.0))
 }
 ```
@@ -639,6 +635,7 @@ pub fn calculate_gst(amount: f64, rate: f64) -> Result<f64, String> {
 #### 1. Build Failures
 
 **Issue**: `error: could not find 'Cargo.toml'`
+
 ```bash
 # Solution: Ensure you're in the correct directory
 cd path/to/payvlo
@@ -646,6 +643,7 @@ ls -la  # Should see Cargo.toml in src-tauri/
 ```
 
 **Issue**: `Error: Cannot find module '@tauri-apps/api'`
+
 ```bash
 # Solution: Reinstall dependencies
 rm -rf node_modules
@@ -655,6 +653,7 @@ pnpm install
 #### 2. Development Server Issues
 
 **Issue**: SvelteKit dev server not starting
+
 ```bash
 # Solution: Check port availability
 lsof -i :5173
@@ -663,6 +662,7 @@ pnpm run dev
 ```
 
 **Issue**: Tauri app not launching
+
 ```bash
 # Solution: Check Rust installation
 rustc --version
@@ -711,4 +711,4 @@ console.debug('GST calculation debug:', {
 
 **Happy coding! 🚀**
 
-> For questions or support, please create an issue or reach out to the development team. 
+> For questions or support, please create an issue or reach out to the development team.

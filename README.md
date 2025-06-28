@@ -5,6 +5,7 @@ A lightweight, cross-platform GST-compliant invoice generator for Indian busines
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - **Node.js** (v18+)
 - **Rust** (latest stable)
 - **pnpm** (recommended package manager)
@@ -50,7 +51,7 @@ Payvlo/
 ## 🏗️ Architecture
 
 - **Frontend**: SvelteKit + TypeScript + Skeleton UI
-- **Desktop**: Tauri (Rust) for native performance  
+- **Desktop**: Tauri (Rust) for native performance
 - **Database**: SQLite for local storage
 - **PDF**: jsPDF for invoice generation
 
@@ -70,7 +71,7 @@ See [`plan.md`](plan.md) for detailed development phases and current status.
 ## 📋 Indian GST Requirements
 
 - Business registration details (GSTIN)
-- HSN/SAC product codes  
+- HSN/SAC product codes
 - CGST/SGST for intra-state transactions
 - IGST for inter-state transactions
 - Tax slabs: 5%, 12%, 18%, 28%
@@ -80,16 +81,18 @@ See [`plan.md`](plan.md) for detailed development phases and current status.
 ## 🚀 Getting Started
 
 1. **Install Dependencies**:
+
    ```bash
    pnpm install
    ```
 
 2. **Start Development**:
+
    ```bash
    # For web development
    pnpm run dev
-   
-   # For desktop development  
+
+   # For desktop development
    pnpm tauri dev
    ```
 

@@ -4,6 +4,7 @@
 **Status**: Auto-generated from [plan.md](../plan.md)
 
 ## 📋 Table of Contents
+
 1. [Common Issues](#common-issues)
 2. [Installation Problems](#installation-problems)
 3. [GST Calculation Problems](#gst-calculation-problems)
@@ -18,6 +19,7 @@
 ### **Application Won't Start**
 
 **Symptoms:**
+
 - Application fails to launch
 - Error messages during startup
 - White screen or blank window
@@ -25,22 +27,24 @@
 **Solutions:**
 
 1. **Check System Requirements:**
+
    ```bash
    # Verify Node.js version (required: 16+)
    node --version
-   
+
    # Verify Rust installation
    rustc --version
    ```
 
 2. **Clear Application Data:**
+
    ```bash
    # Windows
    rm -rf %APPDATA%/com.payvlo.gst-invoice-generator
-   
+
    # macOS
    rm -rf ~/Library/Application\ Support/com.payvlo.gst-invoice-generator
-   
+
    # Linux
    rm -rf ~/.config/com.payvlo.gst-invoice-generator
    ```
@@ -55,6 +59,7 @@
 ### **Database Connection Failed**
 
 **Symptoms:**
+
 - "Failed to open database" errors
 - Data not saving or loading
 - Application crashes on data operations
@@ -62,6 +67,7 @@
 **Solutions:**
 
 1. **Check Database Permissions:**
+
    ```bash
    # Ensure app data directory exists and is writable
    mkdir -p ~/.config/payvlo
@@ -78,6 +84,7 @@
 ### **GST Calculations Incorrect**
 
 **Symptoms:**
+
 - Wrong tax amounts calculated
 - CGST/SGST/IGST distribution incorrect
 - Total amounts don't match expected values
@@ -89,6 +96,7 @@
    - **Inter-state**: Buyer and seller in different states → IGST
 
 2. **Check GST Rate:**
+
    ```javascript
    // Valid GST rates only: 0, 5, 12, 18, 28
    const validRates = [0, 5, 12, 18, 28];
@@ -116,11 +124,13 @@
    - Install WebView2 Runtime
 
    **macOS:**
+
    ```bash
    xcode-select --install
    ```
 
    **Linux (Ubuntu/Debian):**
+
    ```bash
    sudo apt update
    sudo apt install libwebkit2gtk-4.0-dev \
@@ -147,6 +157,7 @@
 **Solutions:**
 
 1. **Clear Package Manager Cache:**
+
    ```bash
    pnpm store prune
    rm -rf node_modules
@@ -168,12 +179,13 @@
 **Problem**: Valid GSTIN rejected by validation
 
 **Solution:**
+
 ```typescript
 function validateGSTIN(gstin: string): boolean {
-    if (gstin.length !== 15) return false;
-    
-    const regex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$/;
-    return regex.test(gstin);
+	if (gstin.length !== 15) return false;
+
+	const regex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$/;
+	return regex.test(gstin);
 }
 ```
 
@@ -182,19 +194,20 @@ function validateGSTIN(gstin: string): boolean {
 **Problem**: CGST/SGST not splitting correctly
 
 **Solution:**
+
 ```typescript
 const isIntraState = buyerState === sellerState;
 
 if (isIntraState) {
-    // CGST + SGST (each half of total GST)
-    cgst = totalGST / 2;
-    sgst = totalGST / 2;
-    igst = 0;
+	// CGST + SGST (each half of total GST)
+	cgst = totalGST / 2;
+	sgst = totalGST / 2;
+	igst = 0;
 } else {
-    // IGST only
-    cgst = 0;
-    sgst = 0;
-    igst = totalGST;
+	// IGST only
+	cgst = 0;
+	sgst = 0;
+	igst = totalGST;
 }
 ```
 
@@ -207,15 +220,17 @@ if (isIntraState) {
 **Solutions:**
 
 1. **Check Database Integrity:**
+
    ```bash
    sqlite3 payvlo.db "PRAGMA integrity_check;"
    ```
 
 2. **Repair Corrupted Database:**
+
    ```bash
    # Create backup
    cp payvlo.db payvlo_backup.db
-   
+
    # Attempt repair
    sqlite3 payvlo.db ".recover" > recovered.sql
    sqlite3 payvlo_new.db < recovered.sql
@@ -231,6 +246,7 @@ if (isIntraState) {
 **Solutions:**
 
 1. **Check jsPDF Dependencies:**
+
    ```bash
    pnpm add jspdf jspdf-autotable
    pnpm list jspdf
@@ -239,12 +255,12 @@ if (isIntraState) {
 2. **Debug PDF Generation:**
    ```typescript
    try {
-       const pdf = new jsPDF();
-       pdf.text('Test PDF', 10, 10);
-       const pdfBlob = pdf.output('blob');
-       console.log('PDF generated successfully', pdfBlob.size);
+   	const pdf = new jsPDF();
+   	pdf.text('Test PDF', 10, 10);
+   	const pdfBlob = pdf.output('blob');
+   	console.log('PDF generated successfully', pdfBlob.size);
    } catch (error) {
-       console.error('PDF generation failed:', error);
+   	console.error('PDF generation failed:', error);
    }
    ```
 
@@ -253,12 +269,13 @@ if (isIntraState) {
 **Problem**: PDF layout broken or text overlapping
 
 **Solution:**
+
 ```typescript
 // Proper page dimension calculations
 const pageWidth = pdf.internal.pageSize.getWidth();
 const pageHeight = pdf.internal.pageSize.getHeight();
 const margin = 20;
-const contentWidth = pageWidth - (margin * 2);
+const contentWidth = pageWidth - margin * 2;
 ```
 
 ## 🖥️ Cross-Platform Issues
@@ -268,6 +285,7 @@ const contentWidth = pageWidth - (margin * 2);
 **Issue**: Application crashes on Windows
 
 **Solutions:**
+
 1. Check WebView2 installation
 2. Add application to antivirus whitelist
 3. Run as administrator if permission issues
@@ -277,6 +295,7 @@ const contentWidth = pageWidth - (margin * 2);
 **Issue**: "App is damaged" error
 
 **Solutions:**
+
 ```bash
 # Remove quarantine attribute
 xattr -rd com.apple.quarantine path/to/app.app
@@ -290,6 +309,7 @@ codesign --force --deep --sign - path/to/app.app
 **Issue**: Application won't run on different distributions
 
 **Solutions:**
+
 ```bash
 # Check for missing libraries
 ldd path/to/payvlo | grep "not found"
@@ -310,6 +330,7 @@ chmod +x payvlo.AppImage
 **Solutions:**
 
 1. **Optimize Bundle Size:**
+
    ```bash
    pnpm run build
    npx vite-bundle-analyzer dist
@@ -329,9 +350,10 @@ chmod +x payvlo.AppImage
 **Solutions:**
 
 1. **Monitor Store Subscriptions:**
+
    ```typescript
-   const unsubscribe = store.subscribe(value => console.log(value));
-   
+   const unsubscribe = store.subscribe((value) => console.log(value));
+
    // Always unsubscribe in onDestroy
    onDestroy(() => unsubscribe());
    ```
@@ -339,9 +361,9 @@ chmod +x payvlo.AppImage
 2. **Paginate Large Datasets:**
    ```typescript
    const limit = 50;
-   const customers = await invoke('get_customers_paginated', { 
-       offset: page * limit, 
-       limit 
+   const customers = await invoke('get_customers_paginated', {
+   	offset: page * limit,
+   	limit
    });
    ```
 
@@ -350,31 +372,34 @@ chmod +x payvlo.AppImage
 ### **Frontend Debugging**
 
 **Enable Debug Mode:**
+
 ```typescript
 // Enable detailed logging
 if (import.meta.env.DEV) {
-    console.log('Debug mode enabled');
-    window.debug = {
-        stores: { customerStore, invoiceStore },
-        api: api
-    };
+	console.log('Debug mode enabled');
+	window.debug = {
+		stores: { customerStore, invoiceStore },
+		api: api
+	};
 }
 ```
 
 **Browser DevTools:**
+
 ```javascript
 // Debug store values
 customerStore.subscribe(console.log);
 
 // Monitor API calls
 window.addEventListener('tauri://invoke', (e) => {
-    console.log('Tauri command:', e.detail);
+	console.log('Tauri command:', e.detail);
 });
 ```
 
 ### **Backend Debugging**
 
 **Rust Logging:**
+
 ```rust
 // Add to Cargo.toml
 [dependencies]
@@ -398,6 +423,7 @@ async fn debug_command() -> Result<String, String> {
 ### **Performance Profiling**
 
 **Measure Performance:**
+
 ```typescript
 // Frontend timing
 const start = performance.now();
@@ -419,11 +445,13 @@ log::info!("Operation completed in: {:?}", duration);
 ## 🆘 Getting Help
 
 **Log Locations:**
+
 - **Windows**: `%APPDATA%/com.payvlo.gst-invoice-generator/logs/`
 - **macOS**: `~/Library/Logs/com.payvlo.gst-invoice-generator/`
 - **Linux**: `~/.local/share/com.payvlo.gst-invoice-generator/logs/`
 
 **When Reporting Issues:**
+
 1. Include operating system and version
 2. Application version
 3. Steps to reproduce
@@ -432,6 +460,7 @@ log::info!("Operation completed in: {:?}", duration);
 6. Screenshots if applicable
 
 **Log Analysis:**
+
 ```bash
 # Search for errors
 grep -i "error" payvlo.log
@@ -443,4 +472,4 @@ grep -i "gst.*calculation" payvlo.log
 tail -f payvlo.log
 ```
 
-This troubleshooting guide covers the most common issues you may encounter while developing or using Payvlo GST Invoice Generator. For issues not covered here, please check the project documentation or create a detailed bug report. 
+This troubleshooting guide covers the most common issues you may encounter while developing or using Payvlo GST Invoice Generator. For issues not covered here, please check the project documentation or create a detailed bug report.

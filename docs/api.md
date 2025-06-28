@@ -22,6 +22,7 @@ pub async fn get_customers() -> Result<Vec<Customer>, String>
 **Returns:** Array of Customer objects
 
 **Example Usage:**
+
 ```typescript
 import { invoke } from '@tauri-apps/api/tauri';
 
@@ -38,40 +39,43 @@ pub async fn create_customer(customer_data: CustomerData) -> Result<Customer, St
 ```
 
 **Parameters:**
+
 - `customer_data`: CustomerData object
 
 **Type Definitions:**
+
 ```typescript
 interface CustomerData {
-  name: string;
-  gstin?: string;
-  email?: string;
-  phone?: string;
-  address?: string;
-  city?: string;
-  state?: string;
-  pincode?: string;
+	name: string;
+	gstin?: string;
+	email?: string;
+	phone?: string;
+	address?: string;
+	city?: string;
+	state?: string;
+	pincode?: string;
 }
 
 interface Customer extends CustomerData {
-  id: number;
-  created_at: string;
+	id: number;
+	created_at: string;
 }
 ```
 
 **Example Usage:**
+
 ```typescript
 const newCustomer = await invoke<Customer>('create_customer', {
-  customerData: {
-    name: 'ABC Medical Supplies',
-    gstin: '27AABCU9603R1ZX',
-    email: 'contact@abcmedical.com',
-    phone: '+91-9876543210',
-    address: '123 Medical Street',
-    city: 'Mumbai',
-    state: 'Maharashtra',
-    pincode: '400001'
-  }
+	customerData: {
+		name: 'ABC Medical Supplies',
+		gstin: '27AABCU9603R1ZX',
+		email: 'contact@abcmedical.com',
+		phone: '+91-9876543210',
+		address: '123 Medical Street',
+		city: 'Mumbai',
+		state: 'Maharashtra',
+		pincode: '400001'
+	}
 });
 ```
 
@@ -85,17 +89,19 @@ pub async fn update_customer(id: i64, customer_data: CustomerData) -> Result<Cus
 ```
 
 **Parameters:**
+
 - `id`: Customer ID (number)
 - `customer_data`: Updated CustomerData object
 
 **Example Usage:**
+
 ```typescript
 const updatedCustomer = await invoke<Customer>('update_customer', {
-  id: 1,
-  customerData: {
-    name: 'ABC Medical Supplies Pvt Ltd',
-    email: 'info@abcmedical.com'
-  }
+	id: 1,
+	customerData: {
+		name: 'ABC Medical Supplies Pvt Ltd',
+		email: 'info@abcmedical.com'
+	}
 });
 ```
 
@@ -109,11 +115,13 @@ pub async fn delete_customer(id: i64) -> Result<bool, String>
 ```
 
 **Parameters:**
+
 - `id`: Customer ID (number)
 
 **Returns:** Success boolean
 
 **Example Usage:**
+
 ```typescript
 const success = await invoke<boolean>('delete_customer', { id: 1 });
 ```
@@ -128,30 +136,33 @@ pub async fn validate_gstin(gstin: String) -> Result<GstinValidation, String>
 ```
 
 **Parameters:**
+
 - `gstin`: GSTIN string to validate
 
 **Type Definitions:**
+
 ```typescript
 interface GstinValidation {
-  is_valid: boolean;
-  state_code: string;
-  pan: string;
-  entity_number: string;
-  check_digit: string;
-  errors: string[];
+	is_valid: boolean;
+	state_code: string;
+	pan: string;
+	entity_number: string;
+	check_digit: string;
+	errors: string[];
 }
 ```
 
 **Example Usage:**
+
 ```typescript
 const validation = await invoke<GstinValidation>('validate_gstin', {
-  gstin: '27AABCU9603R1ZX'
+	gstin: '27AABCU9603R1ZX'
 });
 
 if (validation.is_valid) {
-  console.log('Valid GSTIN for state:', validation.state_code);
+	console.log('Valid GSTIN for state:', validation.state_code);
 } else {
-  console.error('Invalid GSTIN:', validation.errors);
+	console.error('Invalid GSTIN:', validation.errors);
 }
 ```
 
@@ -167,16 +178,17 @@ pub async fn get_products() -> Result<Vec<Product>, String>
 ```
 
 **Type Definitions:**
+
 ```typescript
 interface Product {
-  id: number;
-  name: string;
-  hsn_sac_code: string;
-  description?: string;
-  unit: string;
-  rate: number;
-  gst_rate: number;
-  created_at: string;
+	id: number;
+	name: string;
+	hsn_sac_code: string;
+	description?: string;
+	unit: string;
+	rate: number;
+	gst_rate: number;
+	created_at: string;
 }
 ```
 
@@ -190,28 +202,30 @@ pub async fn create_product(product_data: ProductData) -> Result<Product, String
 ```
 
 **Type Definitions:**
+
 ```typescript
 interface ProductData {
-  name: string;
-  hsn_sac_code: string;
-  description?: string;
-  unit: string;
-  rate: number;
-  gst_rate: number;
+	name: string;
+	hsn_sac_code: string;
+	description?: string;
+	unit: string;
+	rate: number;
+	gst_rate: number;
 }
 ```
 
 **Example Usage:**
+
 ```typescript
 const newProduct = await invoke<Product>('create_product', {
-  productData: {
-    name: 'Digital Thermometer',
-    hsn_sac_code: '90181900',
-    description: 'Non-contact infrared thermometer',
-    unit: 'Piece',
-    rate: 2500.00,
-    gst_rate: 12.0
-  }
+	productData: {
+		name: 'Digital Thermometer',
+		hsn_sac_code: '90181900',
+		description: 'Non-contact infrared thermometer',
+		unit: 'Piece',
+		rate: 2500.0,
+		gst_rate: 12.0
+	}
 });
 ```
 
@@ -225,19 +239,21 @@ pub async fn search_hsn_codes(query: String) -> Result<Vec<HsnCode>, String>
 ```
 
 **Type Definitions:**
+
 ```typescript
 interface HsnCode {
-  code: string;
-  description: string;
-  gst_rate: number;
-  category: string;
+	code: string;
+	description: string;
+	gst_rate: number;
+	category: string;
 }
 ```
 
 **Example Usage:**
+
 ```typescript
 const hsnCodes = await invoke<HsnCode[]>('search_hsn_codes', {
-  query: 'medical equipment'
+	query: 'medical equipment'
 });
 ```
 
@@ -259,63 +275,65 @@ pub async fn get_invoices(
 ```
 
 **Type Definitions:**
+
 ```typescript
 interface InvoiceList {
-  invoices: Invoice[];
-  total_count: number;
-  has_more: boolean;
+	invoices: Invoice[];
+	total_count: number;
+	has_more: boolean;
 }
 
 interface Invoice {
-  id: number;
-  invoice_number: string;
-  customer_id: number;
-  customer_name: string;
-  invoice_date: string;
-  place_of_supply: string;
-  subtotal: number;
-  cgst_amount: number;
-  sgst_amount: number;
-  igst_amount: number;
-  total_amount: number;
-  status: string;
-  created_at: string;
-  items: InvoiceItem[];
+	id: number;
+	invoice_number: string;
+	customer_id: number;
+	customer_name: string;
+	invoice_date: string;
+	place_of_supply: string;
+	subtotal: number;
+	cgst_amount: number;
+	sgst_amount: number;
+	igst_amount: number;
+	total_amount: number;
+	status: string;
+	created_at: string;
+	items: InvoiceItem[];
 }
 
 interface InvoiceItem {
-  id: number;
-  product_id: number;
-  product_name: string;
-  hsn_sac_code: string;
-  quantity: number;
-  rate: number;
-  amount: number;
-  gst_rate: number;
-  cgst_amount: number;
-  sgst_amount: number;
-  igst_amount: number;
+	id: number;
+	product_id: number;
+	product_name: string;
+	hsn_sac_code: string;
+	quantity: number;
+	rate: number;
+	amount: number;
+	gst_rate: number;
+	cgst_amount: number;
+	sgst_amount: number;
+	igst_amount: number;
 }
 ```
 
 **Example Usage:**
+
 ```typescript
 // Get recent invoices
 const recentInvoices = await invoke<InvoiceList>('get_invoices', {
-  limit: 20,
-  offset: 0,
-  status: null,
-  dateFrom: null,
-  dateTo: null
+	limit: 20,
+	offset: 0,
+	status: null,
+	dateFrom: null,
+	dateTo: null
 });
 
 // Get paid invoices for current month
 const paidInvoices = await invoke<InvoiceList>('get_invoices', {
-  limit: 100,
-  offset: 0,
-  status: 'paid',
-  dateFrom: '2024-01-01',
-  dateTo: '2024-01-31'
+	limit: 100,
+	offset: 0,
+	status: 'paid',
+	dateFrom: '2024-01-01',
+	dateTo: '2024-01-31'
 });
 ```
 
@@ -329,45 +347,47 @@ pub async fn create_invoice(invoice_data: InvoiceData) -> Result<Invoice, String
 ```
 
 **Type Definitions:**
+
 ```typescript
 interface InvoiceData {
-  customer_id: number;
-  invoice_date: string;
-  place_of_supply: string;
-  items: InvoiceItemData[];
-  notes?: string;
+	customer_id: number;
+	invoice_date: string;
+	place_of_supply: string;
+	items: InvoiceItemData[];
+	notes?: string;
 }
 
 interface InvoiceItemData {
-  product_id: number;
-  quantity: number;
-  rate: number;
-  discount?: number;
+	product_id: number;
+	quantity: number;
+	rate: number;
+	discount?: number;
 }
 ```
 
 **Example Usage:**
+
 ```typescript
 const newInvoice = await invoke<Invoice>('create_invoice', {
-  invoiceData: {
-    customer_id: 1,
-    invoice_date: '2024-01-15',
-    place_of_supply: 'Maharashtra',
-    items: [
-      {
-        product_id: 1,
-        quantity: 2,
-        rate: 2500.00
-      },
-      {
-        product_id: 2,
-        quantity: 1,
-        rate: 5000.00,
-        discount: 500.00
-      }
-    ],
-    notes: 'Thank you for your business!'
-  }
+	invoiceData: {
+		customer_id: 1,
+		invoice_date: '2024-01-15',
+		place_of_supply: 'Maharashtra',
+		items: [
+			{
+				product_id: 1,
+				quantity: 2,
+				rate: 2500.0
+			},
+			{
+				product_id: 2,
+				quantity: 1,
+				rate: 5000.0,
+				discount: 500.0
+			}
+		],
+		notes: 'Thank you for your business!'
+	}
 });
 ```
 
@@ -381,10 +401,11 @@ pub async fn update_invoice_status(id: i64, status: String) -> Result<Invoice, S
 ```
 
 **Example Usage:**
+
 ```typescript
 const updatedInvoice = await invoke<Invoice>('update_invoice_status', {
-  id: 1,
-  status: 'paid'
+	id: 1,
+	status: 'paid'
 });
 ```
 
@@ -405,25 +426,27 @@ pub async fn calculate_gst(
 ```
 
 **Type Definitions:**
+
 ```typescript
 interface GstCalculation {
-  taxable_amount: number;
-  cgst: number;
-  sgst: number;
-  igst: number;
-  total_tax: number;
-  total_amount: number;
-  is_inter_state: boolean;
+	taxable_amount: number;
+	cgst: number;
+	sgst: number;
+	igst: number;
+	total_tax: number;
+	total_amount: number;
+	is_inter_state: boolean;
 }
 ```
 
 **Example Usage:**
+
 ```typescript
 const gstCalc = await invoke<GstCalculation>('calculate_gst', {
-  amount: 10000.00,
-  gstRate: 18.0,
-  businessState: 'Maharashtra',
-  placeOfSupply: 'Karnataka'
+	amount: 10000.0,
+	gstRate: 18.0,
+	businessState: 'Maharashtra',
+	placeOfSupply: 'Karnataka'
 });
 
 console.log('IGST Amount:', gstCalc.igst); // Inter-state transaction
@@ -439,11 +462,12 @@ pub async fn get_gst_rates() -> Result<Vec<GstRate>, String>
 ```
 
 **Type Definitions:**
+
 ```typescript
 interface GstRate {
-  rate: number;
-  description: string;
-  applicable_items: string[];
+	rate: number;
+	description: string;
+	applicable_items: string[];
 }
 ```
 
@@ -462,23 +486,25 @@ pub async fn generate_invoice_pdf(
 ```
 
 **Type Definitions:**
+
 ```typescript
 interface PdfResult {
-  file_path: string;
-  file_size: number;
-  success: boolean;
+	file_path: string;
+	file_size: number;
+	success: boolean;
 }
 ```
 
 **Example Usage:**
+
 ```typescript
 const pdfResult = await invoke<PdfResult>('generate_invoice_pdf', {
-  invoiceId: 1,
-  template: 'standard'
+	invoiceId: 1,
+	template: 'standard'
 });
 
 if (pdfResult.success) {
-  console.log('PDF generated at:', pdfResult.file_path);
+	console.log('PDF generated at:', pdfResult.file_path);
 }
 ```
 
@@ -510,21 +536,23 @@ pub async fn export_data(
 ```
 
 **Type Definitions:**
+
 ```typescript
 interface ExportResult {
-  success: boolean;
-  file_path: string;
-  records_exported: number;
-  file_size: number;
+	success: boolean;
+	file_path: string;
+	records_exported: number;
+	file_size: number;
 }
 ```
 
 **Example Usage:**
+
 ```typescript
 const exportResult = await invoke<ExportResult>('export_data', {
-  format: 'json',
-  tables: ['customers', 'products', 'invoices'],
-  filePath: '/Users/username/Documents/payvlo-backup.json'
+	format: 'json',
+	tables: ['customers', 'products', 'invoices'],
+	filePath: '/Users/username/Documents/payvlo-backup.json'
 });
 ```
 
@@ -542,12 +570,13 @@ pub async fn import_data(
 ```
 
 **Type Definitions:**
+
 ```typescript
 interface ImportResult {
-  success: boolean;
-  records_imported: number;
-  records_skipped: number;
-  errors: string[];
+	success: boolean;
+	records_imported: number;
+	records_skipped: number;
+	errors: string[];
 }
 ```
 
@@ -563,20 +592,21 @@ pub async fn get_settings() -> Result<AppSettings, String>
 ```
 
 **Type Definitions:**
+
 ```typescript
 interface AppSettings {
-  business_name: string;
-  business_gstin: string;
-  business_address: string;
-  business_state: string;
-  business_email: string;
-  business_phone: string;
-  invoice_prefix: string;
-  invoice_counter: number;
-  default_gst_rate: number;
-  currency: string;
-  date_format: string;
-  pdf_template: string;
+	business_name: string;
+	business_gstin: string;
+	business_address: string;
+	business_state: string;
+	business_email: string;
+	business_phone: string;
+	invoice_prefix: string;
+	invoice_counter: number;
+	default_gst_rate: number;
+	currency: string;
+	date_format: string;
+	pdf_template: string;
 }
 ```
 
@@ -601,12 +631,13 @@ pub async fn backup_database(file_path: String) -> Result<BackupResult, String>
 ```
 
 **Type Definitions:**
+
 ```typescript
 interface BackupResult {
-  success: boolean;
-  backup_path: string;
-  backup_size: number;
-  timestamp: string;
+	success: boolean;
+	backup_path: string;
+	backup_size: number;
+	timestamp: string;
 }
 ```
 
@@ -620,12 +651,13 @@ pub async fn restore_database(file_path: String) -> Result<RestoreResult, String
 ```
 
 **Type Definitions:**
+
 ```typescript
 interface RestoreResult {
-  success: boolean;
-  records_restored: number;
-  tables_restored: string[];
-  errors: string[];
+	success: boolean;
+	records_restored: number;
+	tables_restored: string[];
+	errors: string[];
 }
 ```
 
@@ -635,12 +667,12 @@ All Tauri commands return `Result<T, String>` where the error string contains a 
 
 ```typescript
 try {
-  const result = await invoke<Customer>('create_customer', { customerData });
-  // Handle success
+	const result = await invoke<Customer>('create_customer', { customerData });
+	// Handle success
 } catch (error) {
-  console.error('Failed to create customer:', error);
-  // Show user-friendly error message
-  showNotification('Error creating customer: ' + error, 'error');
+	console.error('Failed to create customer:', error);
+	// Show user-friendly error message
+	showNotification('Error creating customer: ' + error, 'error');
 }
 ```
 
@@ -662,24 +694,24 @@ const customer = await invoke<Customer>('create_customer', { customerData });
 
 // 2. Create invoice
 const invoice = await invoke<Invoice>('create_invoice', {
-  invoiceData: {
-    customer_id: customer.id,
-    invoice_date: new Date().toISOString().split('T')[0],
-    place_of_supply: customer.state,
-    items: selectedItems
-  }
+	invoiceData: {
+		customer_id: customer.id,
+		invoice_date: new Date().toISOString().split('T')[0],
+		place_of_supply: customer.state,
+		items: selectedItems
+	}
 });
 
 // 3. Generate PDF
 const pdfResult = await invoke<PdfResult>('generate_invoice_pdf', {
-  invoiceId: invoice.id,
-  template: 'standard'
+	invoiceId: invoice.id,
+	template: 'standard'
 });
 
 // 4. Update status
 await invoke<Invoice>('update_invoice_status', {
-  id: invoice.id,
-  status: 'sent'
+	id: invoice.id,
+	status: 'sent'
 });
 ```
 
@@ -688,18 +720,18 @@ await invoke<Invoice>('update_invoice_status', {
 ```typescript
 // Calculate GST as user types
 const handleAmountChange = async (amount: number, gstRate: number) => {
-  try {
-    const calculation = await invoke<GstCalculation>('calculate_gst', {
-      amount,
-      gstRate,
-      businessState: settings.business_state,
-      placeOfSupply: selectedCustomer.state
-    });
-    
-    updateInvoiceCalculations(calculation);
-  } catch (error) {
-    console.error('GST calculation error:', error);
-  }
+	try {
+		const calculation = await invoke<GstCalculation>('calculate_gst', {
+			amount,
+			gstRate,
+			businessState: settings.business_state,
+			placeOfSupply: selectedCustomer.state
+		});
+
+		updateInvoiceCalculations(calculation);
+	} catch (error) {
+		console.error('GST calculation error:', error);
+	}
 };
 ```
 
@@ -712,7 +744,7 @@ Commands can be tested using Tauri's test utilities:
 mod tests {
     use super::*;
     use tauri::test::{mock_app, MockBuilder};
-    
+
     #[tokio::test]
     async fn test_create_customer() {
         let app = mock_app();
@@ -721,7 +753,7 @@ mod tests {
             gstin: Some("27AABCU9603R1ZX".to_string()),
             // ... other fields
         };
-        
+
         let result = create_customer(customer_data).await;
         assert!(result.is_ok());
     }
@@ -732,4 +764,4 @@ mod tests {
 
 - [Tauri Command Documentation](https://tauri.app/v1/guides/features/command)
 - [Rust SQLite Integration](https://docs.rs/rusqlite/latest/rusqlite/)
-- [GST Compliance Requirements](./gst-compliance.md) 
+- [GST Compliance Requirements](./gst-compliance.md)

@@ -5,6 +5,7 @@
 **Status**: Auto-generated from [plan.md](../plan.md)
 
 ## 📋 Table of Contents
+
 1. [Architecture Overview](#architecture-overview)
 2. [Technology Stack](#technology-stack)
 3. [System Design](#system-design)
@@ -30,28 +31,28 @@ graph TB
         Core[Rust Core Engine]
         DB[SQLite Database]
     end
-    
+
     subgraph "Web Deployment"
         WebUI[SvelteKit Web App]
         WebAPI[Web API Layer]
         WebDB[IndexedDB/WebSQL]
     end
-    
+
     subgraph "External Services"
         PDF[PDF Generation]
         Export[Data Export/Import]
         Backup[Backup Services]
     end
-    
+
     UI --> Bridge
     Bridge --> Core
     Core --> DB
     Core --> PDF
     Core --> Export
-    
+
     WebUI --> WebAPI
     WebAPI --> WebDB
-    
+
     UI -.-> WebUI
     Core -.-> WebAPI
 ```
@@ -68,6 +69,7 @@ graph TB
 ## 🛠️ Technology Stack
 
 ### **Frontend Layer**
+
 ```typescript
 {
   "framework": "SvelteKit",
@@ -80,6 +82,7 @@ graph TB
 ```
 
 ### **Backend Layer**
+
 ```rust
 {
   "runtime": "Tauri (Rust)",
@@ -92,24 +95,26 @@ graph TB
 ```
 
 ### **Build & Deployment**
+
 ```json
 {
-  "bundler": "Tauri Bundler",
-  "packageManager": "pnpm",
-  "taskRunner": "Vite",
-  "platforms": ["Windows MSI", "macOS DMG", "Linux AppImage"],
-  "webDeploy": "Static Site Generation (SSG)"
+	"bundler": "Tauri Bundler",
+	"packageManager": "pnpm",
+	"taskRunner": "Vite",
+	"platforms": ["Windows MSI", "macOS DMG", "Linux AppImage"],
+	"webDeploy": "Static Site Generation (SSG)"
 }
 ```
 
 ### **Development Tools**
+
 ```json
 {
-  "linting": "ESLint + Clippy",
-  "formatting": "Prettier + rustfmt",
-  "testing": "Vitest + Playwright + Cargo test",
-  "documentation": "AURA-integrated docs",
-  "versionControl": "Git + Conventional Commits"
+	"linting": "ESLint + Clippy",
+	"formatting": "Prettier + rustfmt",
+	"testing": "Vitest + Playwright + Cargo test",
+	"documentation": "AURA-integrated docs",
+	"versionControl": "Git + Conventional Commits"
 }
 ```
 
@@ -184,6 +189,7 @@ sequenceDiagram
 ### **Database Schema Design**
 
 **Entity Relationship Diagram:**
+
 ```mermaid
 erDiagram
     COMPANY {
@@ -269,6 +275,7 @@ erDiagram
 ### **Data Access Patterns**
 
 **Repository Pattern Implementation:**
+
 ```rust
 // src-tauri/src/database/repository.rs
 use async_trait::async_trait;
@@ -295,7 +302,7 @@ impl Repository<Customer> for CustomerRepository {
             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)
             RETURNING *
         "#;
-        
+
         let result = sqlx::query_as::<_, Customer>(query)
             .bind(&customer.name)
             .bind(&customer.gstin)
@@ -307,10 +314,10 @@ impl Repository<Customer> for CustomerRepository {
             .bind(&customer.phone)
             .fetch_one(&self.db.pool)
             .await?;
-            
+
         Ok(result)
     }
-    
+
     // Additional implementation...
 }
 ```
@@ -318,6 +325,7 @@ impl Repository<Customer> for CustomerRepository {
 ### **Data Validation Layer**
 
 **Rust-Side Validation:**
+
 ```rust
 // src-tauri/src/models/customer.rs
 use serde::{Deserialize, Serialize};
@@ -326,28 +334,28 @@ use validator::{Validate, ValidationError};
 #[derive(Debug, Serialize, Deserialize, Validate)]
 pub struct Customer {
     pub id: Option<i64>,
-    
+
     #[validate(length(min = 1, max = 100, message = "Name must be 1-100 characters"))]
     pub name: String,
-    
+
     #[validate(custom = "validate_gstin")]
     pub gstin: String,
-    
+
     #[validate(length(min = 1, max = 500, message = "Address must be 1-500 characters"))]
     pub address: String,
-    
+
     #[validate(length(min = 1, max = 100))]
     pub city: String,
-    
+
     #[validate(length(min = 1, max = 50))]
     pub state: String,
-    
+
     #[validate(length(min = 6, max = 6, message = "Pincode must be 6 digits"))]
     pub pincode: String,
-    
+
     #[validate(email)]
     pub email: Option<String>,
-    
+
     #[validate(length(min = 10, max = 15))]
     pub phone: Option<String>,
 }
@@ -356,7 +364,7 @@ fn validate_gstin(gstin: &str) -> Result<(), ValidationError> {
     if gstin.len() != 15 {
         return Err(ValidationError::new("Invalid GSTIN length"));
     }
-    
+
     // Additional GSTIN validation logic
     Ok(())
 }
@@ -400,6 +408,7 @@ src/
 ### **State Management Pattern**
 
 **Svelte Stores Architecture:**
+
 ```typescript
 // src/lib/stores/customers.ts
 import { writable, derived } from 'svelte/store';
@@ -407,96 +416,91 @@ import type { Customer } from '$lib/types';
 import { invoke } from '@tauri-apps/api/tauri';
 
 interface CustomerStore {
-    customers: Customer[];
-    selectedCustomer: Customer | null;
-    loading: boolean;
-    error: string | null;
+	customers: Customer[];
+	selectedCustomer: Customer | null;
+	loading: boolean;
+	error: string | null;
 }
 
 const initialState: CustomerStore = {
-    customers: [],
-    selectedCustomer: null,
-    loading: false,
-    error: null
+	customers: [],
+	selectedCustomer: null,
+	loading: false,
+	error: null
 };
 
 function createCustomerStore() {
-    const { subscribe, set, update } = writable<CustomerStore>(initialState);
+	const { subscribe, set, update } = writable<CustomerStore>(initialState);
 
-    return {
-        subscribe,
-        
-        async loadCustomers() {
-            update(state => ({ ...state, loading: true, error: null }));
-            
-            try {
-                const customers = await invoke<Customer[]>('get_all_customers');
-                update(state => ({ 
-                    ...state, 
-                    customers, 
-                    loading: false 
-                }));
-            } catch (error) {
-                update(state => ({ 
-                    ...state, 
-                    loading: false, 
-                    error: error.toString() 
-                }));
-            }
-        },
+	return {
+		subscribe,
 
-        async createCustomer(customerData: Omit<Customer, 'id'>) {
-            update(state => ({ ...state, loading: true }));
-            
-            try {
-                const newCustomer = await invoke<Customer>('create_customer', {
-                    customerData
-                });
-                
-                update(state => ({
-                    ...state,
-                    customers: [...state.customers, newCustomer],
-                    loading: false
-                }));
-                
-                return newCustomer;
-            } catch (error) {
-                update(state => ({ 
-                    ...state, 
-                    loading: false, 
-                    error: error.toString() 
-                }));
-                throw error;
-            }
-        },
+		async loadCustomers() {
+			update((state) => ({ ...state, loading: true, error: null }));
 
-        selectCustomer(customer: Customer | null) {
-            update(state => ({ ...state, selectedCustomer: customer }));
-        },
+			try {
+				const customers = await invoke<Customer[]>('get_all_customers');
+				update((state) => ({
+					...state,
+					customers,
+					loading: false
+				}));
+			} catch (error) {
+				update((state) => ({
+					...state,
+					loading: false,
+					error: error.toString()
+				}));
+			}
+		},
 
-        reset() {
-            set(initialState);
-        }
-    };
+		async createCustomer(customerData: Omit<Customer, 'id'>) {
+			update((state) => ({ ...state, loading: true }));
+
+			try {
+				const newCustomer = await invoke<Customer>('create_customer', {
+					customerData
+				});
+
+				update((state) => ({
+					...state,
+					customers: [...state.customers, newCustomer],
+					loading: false
+				}));
+
+				return newCustomer;
+			} catch (error) {
+				update((state) => ({
+					...state,
+					loading: false,
+					error: error.toString()
+				}));
+				throw error;
+			}
+		},
+
+		selectCustomer(customer: Customer | null) {
+			update((state) => ({ ...state, selectedCustomer: customer }));
+		},
+
+		reset() {
+			set(initialState);
+		}
+	};
 }
 
 export const customerStore = createCustomerStore();
 
 // Derived stores for computed values
-export const customerList = derived(
-    customerStore,
-    $store => $store.customers
-);
+export const customerList = derived(customerStore, ($store) => $store.customers);
 
-export const isLoadingCustomers = derived(
-    customerStore,
-    $store => $store.loading
-);
+export const isLoadingCustomers = derived(customerStore, ($store) => $store.loading);
 ```
 
 ### **Component Architecture**
 
 **Component Hierarchy:**
+
 ```mermaid
 graph TD
     App["+layout.svelte"]
@@ -504,128 +508,125 @@ graph TD
     App --> Customers["customers/+page.svelte"]
     App --> Products["products/+page.svelte"]
     App --> Invoices["invoices/+page.svelte"]
-    
+
     Dashboard --> DashboardCard["DashboardCard.svelte"]
     Dashboard --> RecentInvoices["RecentInvoices.svelte"]
-    
+
     Customers --> CustomerForm["CustomerForm.svelte"]
     Customers --> CustomerList["CustomerList.svelte"]
     Customers --> CustomerModal["CustomerModal.svelte"]
-    
+
     Invoices --> InvoiceForm["InvoiceForm.svelte"]
     Invoices --> InvoicePreview["InvoicePreview.svelte"]
     Invoices --> GSTCalculator["GSTCalculator.svelte"]
 ```
 
 **Reusable Component Pattern:**
+
 ```svelte
 <!-- src/lib/components/forms/CustomerForm.svelte -->
 <script lang="ts">
-    import { createEventDispatcher } from 'svelte';
-    import { fade } from 'svelte/transition';
-    import { InputChip, modalStore } from '@skeletonlabs/skeleton';
-    import type { Customer } from '$lib/types';
-    import { validateGSTIN } from '$lib/utils/validation';
+	import { createEventDispatcher } from 'svelte';
+	import { fade } from 'svelte/transition';
+	import { InputChip, modalStore } from '@skeletonlabs/skeleton';
+	import type { Customer } from '$lib/types';
+	import { validateGSTIN } from '$lib/utils/validation';
 
-    export let customer: Partial<Customer> = {};
-    export let loading = false;
+	export let customer: Partial<Customer> = {};
+	export let loading = false;
 
-    const dispatch = createEventDispatcher<{
-        save: Customer;
-        cancel: void;
-    }>();
+	const dispatch = createEventDispatcher<{
+		save: Customer;
+		cancel: void;
+	}>();
 
-    let errors: Record<string, string> = {};
+	let errors: Record<string, string> = {};
 
-    function validateForm(): boolean {
-        errors = {};
-        
-        if (!customer.name?.trim()) {
-            errors.name = 'Customer name is required';
-        }
-        
-        if (!customer.gstin?.trim()) {
-            errors.gstin = 'GSTIN is required';
-        } else if (!validateGSTIN(customer.gstin)) {
-            errors.gstin = 'Invalid GSTIN format';
-        }
-        
-        if (!customer.address?.trim()) {
-            errors.address = 'Address is required';
-        }
-        
-        return Object.keys(errors).length === 0;
-    }
+	function validateForm(): boolean {
+		errors = {};
 
-    function handleSubmit() {
-        if (validateForm()) {
-            dispatch('save', customer as Customer);
-        }
-    }
+		if (!customer.name?.trim()) {
+			errors.name = 'Customer name is required';
+		}
+
+		if (!customer.gstin?.trim()) {
+			errors.gstin = 'GSTIN is required';
+		} else if (!validateGSTIN(customer.gstin)) {
+			errors.gstin = 'Invalid GSTIN format';
+		}
+
+		if (!customer.address?.trim()) {
+			errors.address = 'Address is required';
+		}
+
+		return Object.keys(errors).length === 0;
+	}
+
+	function handleSubmit() {
+		if (validateForm()) {
+			dispatch('save', customer as Customer);
+		}
+	}
 </script>
 
 <form on:submit|preventDefault={handleSubmit} class="space-y-4">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-            <label class="label">
-                <span>Customer Name *</span>
-                <input
-                    type="text"
-                    bind:value={customer.name}
-                    class="input"
-                    class:input-error={errors.name}
-                    placeholder="Enter customer name"
-                    disabled={loading}
-                />
-            </label>
-            {#if errors.name}
-                <p class="text-error-500 text-sm mt-1" transition:fade>
-                    {errors.name}
-                </p>
-            {/if}
-        </div>
+	<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+		<div>
+			<label class="label">
+				<span>Customer Name *</span>
+				<input
+					type="text"
+					bind:value={customer.name}
+					class="input"
+					class:input-error={errors.name}
+					placeholder="Enter customer name"
+					disabled={loading}
+				/>
+			</label>
+			{#if errors.name}
+				<p class="text-error-500 text-sm mt-1" transition:fade>
+					{errors.name}
+				</p>
+			{/if}
+		</div>
 
-        <div>
-            <label class="label">
-                <span>GSTIN *</span>
-                <input
-                    type="text"
-                    bind:value={customer.gstin}
-                    class="input"
-                    class:input-error={errors.gstin}
-                    placeholder="15-digit GSTIN"
-                    maxlength="15"
-                    disabled={loading}
-                />
-            </label>
-            {#if errors.gstin}
-                <p class="text-error-500 text-sm mt-1" transition:fade>
-                    {errors.gstin}
-                </p>
-            {/if}
-        </div>
-    </div>
+		<div>
+			<label class="label">
+				<span>GSTIN *</span>
+				<input
+					type="text"
+					bind:value={customer.gstin}
+					class="input"
+					class:input-error={errors.gstin}
+					placeholder="15-digit GSTIN"
+					maxlength="15"
+					disabled={loading}
+				/>
+			</label>
+			{#if errors.gstin}
+				<p class="text-error-500 text-sm mt-1" transition:fade>
+					{errors.gstin}
+				</p>
+			{/if}
+		</div>
+	</div>
 
-    <div class="flex justify-end space-x-2">
-        <button
-            type="button"
-            class="btn variant-soft"
-            on:click={() => dispatch('cancel')}
-            disabled={loading}
-        >
-            Cancel
-        </button>
-        <button
-            type="submit"
-            class="btn variant-filled-primary"
-            disabled={loading}
-        >
-            {#if loading}
-                <span class="animate-spin mr-2">⟳</span>
-            {/if}
-            Save Customer
-        </button>
-    </div>
+	<div class="flex justify-end space-x-2">
+		<button
+			type="button"
+			class="btn variant-soft"
+			on:click={() => dispatch('cancel')}
+			disabled={loading}
+		>
+			Cancel
+		</button>
+		<button type="submit" class="btn variant-filled-primary" disabled={loading}>
+			{#if loading}
+				<span class="animate-spin mr-2">⟳</span>
+			{/if}
+			Save Customer
+		</button>
+	</div>
 </form>
 ```
 
@@ -675,6 +676,7 @@ src-tauri/src/
 ### **Tauri Command Pattern**
 
 **Command Structure:**
+
 ```rust
 // src-tauri/src/commands/customers.rs
 use tauri::State;
@@ -689,7 +691,7 @@ pub async fn get_all_customers(
     let customers = db.customer_repository()
         .find_all()
         .await?;
-    
+
     Ok(customers)
 }
 
@@ -701,19 +703,19 @@ pub async fn create_customer(
     // Validate customer data
     customer_data.validate()
         .map_err(AppError::ValidationError)?;
-    
+
     // Check for duplicate GSTIN
     if let Some(_) = db.customer_repository()
         .find_by_gstin(&customer_data.gstin)
         .await? {
         return Err(AppError::DuplicateGSTIN);
     }
-    
+
     // Create customer
     let customer = db.customer_repository()
         .create(customer_data)
         .await?;
-    
+
     Ok(customer)
 }
 
@@ -724,11 +726,11 @@ pub async fn update_customer(
 ) -> Result<Customer, AppError> {
     customer.validate()
         .map_err(AppError::ValidationError)?;
-    
+
     let updated_customer = db.customer_repository()
         .update(customer)
         .await?;
-    
+
     Ok(updated_customer)
 }
 
@@ -741,15 +743,15 @@ pub async fn delete_customer(
     let invoice_count = db.invoice_repository()
         .count_by_customer_id(customer_id)
         .await?;
-    
+
     if invoice_count > 0 {
         return Err(AppError::CustomerHasInvoices);
     }
-    
+
     let deleted = db.customer_repository()
         .delete(customer_id)
         .await?;
-    
+
     Ok(deleted)
 }
 ```
@@ -757,6 +759,7 @@ pub async fn delete_customer(
 ### **GST Calculation Engine**
 
 **Core GST Logic:**
+
 ```rust
 // src-tauri/src/services/gst_calculator.rs
 use serde::{Deserialize, Serialize};
@@ -795,10 +798,10 @@ impl GSTCalculator {
         if ![0, 5, 12, 18, 28].contains(&gst_rate) {
             return Err(format!("Invalid GST rate: {}%", gst_rate));
         }
-        
+
         let gst_rate_decimal = Decimal::from(gst_rate);
         let hundred = Decimal::from(100);
-        
+
         let (cgst_rate, sgst_rate, igst_rate) = match transaction_type {
             TransactionType::IntraState => {
                 let half_rate = gst_rate_decimal / Decimal::from(2);
@@ -808,14 +811,14 @@ impl GSTCalculator {
                 (Decimal::ZERO, Decimal::ZERO, gst_rate_decimal)
             }
         };
-        
+
         let cgst_amount = (taxable_amount * cgst_rate) / hundred;
         let sgst_amount = (taxable_amount * sgst_rate) / hundred;
         let igst_amount = (taxable_amount * igst_rate) / hundred;
-        
+
         let total_tax = cgst_amount + sgst_amount + igst_amount;
         let total_amount = taxable_amount + total_tax;
-        
+
         Ok(GSTCalculation {
             taxable_amount,
             gst_rate,
@@ -829,7 +832,7 @@ impl GSTCalculator {
             total_amount,
         })
     }
-    
+
     pub fn calculate_reverse_charge(
         total_amount: Decimal,
         gst_rate: i32,
@@ -838,9 +841,9 @@ impl GSTCalculator {
         let gst_rate_decimal = Decimal::from(gst_rate);
         let hundred = Decimal::from(100);
         let divisor = hundred + gst_rate_decimal;
-        
+
         let taxable_amount = (total_amount * hundred) / divisor;
-        
+
         Self::calculate(taxable_amount, gst_rate, transaction_type)
     }
 }
@@ -852,21 +855,22 @@ impl GSTCalculator {
 
 **Windows**: App data in `%APPDATA%`, MSI installer  
 **macOS**: App support directory, DMG package  
-**Linux**: XDG config directory, AppImage  
+**Linux**: XDG config directory, AppImage
 
 ### **Build Configuration**
 
 **Tauri Configuration:**
+
 ```json
 {
-  "bundle": {
-    "targets": ["msi", "dmg", "appimage"],
-    "identifier": "com.payvlo.gst-invoice-generator"
-  },
-  "allowlist": {
-    "fs": { "scope": ["$APPDATA/*", "$DOCUMENT/*", "$DOWNLOAD/*"] },
-    "dialog": { "save": true, "open": true }
-  }
+	"bundle": {
+		"targets": ["msi", "dmg", "appimage"],
+		"identifier": "com.payvlo.gst-invoice-generator"
+	},
+	"allowlist": {
+		"fs": { "scope": ["$APPDATA/*", "$DOCUMENT/*", "$DOWNLOAD/*"] },
+		"dialog": { "save": true, "open": true }
+	}
 }
 ```
 
@@ -883,6 +887,7 @@ impl GSTCalculator {
 ### **Security Implementation**
 
 **GSTIN Validation:**
+
 ```rust
 static GSTIN_REGEX: Lazy<Regex> = Lazy::new(|| {
     Regex::new(r"^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$").unwrap()
@@ -915,33 +920,35 @@ pub fn validate_gstin(gstin: &str) -> bool {
 ### **Frontend-Backend Communication**
 
 **API Service Layer:**
+
 ```typescript
 class ApiService {
-    async getCustomers(): Promise<Customer[]> {
-        return await invoke<Customer[]>('get_all_customers');
-    }
-    
-    async calculateGST(params): Promise<GSTCalculation> {
-        return await invoke<GSTCalculation>('calculate_gst', params);
-    }
-    
-    async generatePDF(invoice): Promise<string> {
-        return await invoke<string>('generate_invoice_pdf', { invoice });
-    }
+	async getCustomers(): Promise<Customer[]> {
+		return await invoke<Customer[]>('get_all_customers');
+	}
+
+	async calculateGST(params): Promise<GSTCalculation> {
+		return await invoke<GSTCalculation>('calculate_gst', params);
+	}
+
+	async generatePDF(invoice): Promise<string> {
+		return await invoke<string>('generate_invoice_pdf', { invoice });
+	}
 }
 ```
 
 ### **Error Handling Pattern**
 
 **Unified Error Handling:**
+
 ```typescript
 export function handleError(error: any): void {
-    const appError = normalizeError(error);
-    showErrorModal(appError);
-    logError(appError);
+	const appError = normalizeError(error);
+	showErrorModal(appError);
+	logError(appError);
 }
 ```
 
 ---
 
-This architecture ensures Payvlo delivers a robust, scalable, and GST-compliant invoice generator with optimal performance across all platforms while maintaining strict security and data integrity standards. 
+This architecture ensures Payvlo delivers a robust, scalable, and GST-compliant invoice generator with optimal performance across all platforms while maintaining strict security and data integrity standards.
