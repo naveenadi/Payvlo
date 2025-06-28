@@ -1,0 +1,395 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# AURA-Integrated Development Guide Generator
+
+This rule automatically generates and maintains comprehensive development documentation in the `./docs` folder, synchronized with [plan.md](mdc:plan.md) using AURA development principles. It ensures documentation stays current with project evolution and provides structured guidance for all development activities.
+
+## 🎯 Core Integration with AURA
+
+### 📋 Blueprint-Documentation Sync
+- **Living Documentation**: All docs in `./docs` folder reflect current [plan.md](mdc:plan.md) state
+- **Automatic Updates**: Documentation updates when tasks are completed or goals change
+- **Bidirectional Traceability**: Every doc section links to specific tasks and milestones
+- **Progress-Aware Content**: Documentation content adapts based on project phase and completion status
+
+### 🔄 AURA Protocol Integration
+
+**Blueprint Protocol Enhancement:**
+- Auto-generate documentation structure based on [plan.md](mdc:plan.md) outline
+- Update documentation when phases, milestones, or goals change
+- Maintain consistency between planning artifacts and implementation guides
+- Provide documentation status tracking within the main project plan
+
+**Context Protocol Documentation:**
+- Generate technical documentation from code analysis and architectural decisions
+- Create API documentation from actual implementation patterns
+- Maintain deployment guides based on infrastructure setup
+- Update component documentation from UI/UX development progress
+
+**Action Protocol Documentation:**
+- Generate step-by-step implementation guides for current goals
+- Create troubleshooting guides from error handling patterns
+- Maintain testing documentation from quality assurance activities
+- Update deployment procedures from release management activities
+
+## 📁 Documentation Structure Management
+
+### 🏗️ Auto-Generated Documentation Framework
+
+When this rule is triggered, maintain the following structure in `./docs`:
+
+```
+docs/
+├── README.md              # Master development guide (auto-updated from plan.md)
+├── api.md                 # API/Backend commands documentation (code-synchronized)
+├── components.md          # UI component library (design-synchronized)
+├── deployment.md          # Platform deployment guides (environment-synchronized)
+├── domain-guide.md        # Domain-specific requirements guide (requirement-synchronized)
+├── testing.md             # Testing strategies and procedures (QA-synchronized)
+├── architecture.md        # System architecture documentation (design-synchronized)
+└── troubleshooting.md     # Common issues and solutions (issue-synchronized)
+```
+
+### 📝 Document Generation Rules
+
+**README.md - Master Development Guide:**
+```markdown
+# [Project Name] - Development Guide
+
+## 🎯 Project Overview
+[Auto-sync from plan.md Project Goal section]
+
+## 🚀 Quick Start
+[Auto-generate based on current phase from plan.md]
+
+## 📋 Current Development Status
+[Auto-sync from plan.md Progress section]
+
+## 🏗️ Architecture Overview
+[Auto-generate from technical decisions in plan.md Notes]
+
+## 📦 Development Setup
+[Auto-generate based on tech stack from plan.md]
+
+## 🔄 Development Workflow
+[Integrate AURA workflow with project-specific steps]
+
+## 📊 Project Phases
+[Auto-sync from plan.md Project Outline]
+
+## ✅ Task Management
+[Link to current tasks from plan.md with development context]
+
+## 🤖 AI-Assisted Development
+[Integrate AURA AI assistance patterns with project context]
+```
+
+**api.md - API Documentation:**
+- Auto-extract API endpoints from code
+- Generate backend command documentation from implementation files
+- Sync with backend implementation progress
+- Update based on database schema changes
+
+**components.md - UI Components:**
+- Auto-document UI components from src/ directory
+- Generate design system from UI framework usage
+- Sync with frontend development progress
+- Update based on UI/UX implementation patterns
+
+**deployment.md - Deployment Guide:**
+- Auto-generate platform-specific deployment steps
+- Sync with CI/CD pipeline configuration
+- Update based on build system setup
+- Maintain environment-specific configurations
+
+**domain-guide.md - Domain-Specific Guide:**
+- Maintain domain-specific requirements documentation
+- Sync with business logic implementation
+- Update based on regulatory/industry requirements
+- Link to specific implementation tasks
+- **Examples**: Compliance guides, industry standards, business rules, legal requirements
+
+## 🤖 AI-Enhanced Documentation Generation
+
+### 📊 Smart Content Generation
+
+**Progress-Aware Updates:**
+```markdown
+## Development Status Integration
+- Monitor [plan.md](mdc:plan.md) task completion rates
+- Auto-update documentation sections based on phase completion
+- Generate next-steps guidance based on current focus
+- Provide implementation hints for upcoming tasks
+```
+
+**Code-Documentation Sync:**
+```markdown
+## Implementation-Driven Documentation
+- Extract code patterns and generate implementation guides
+- Auto-document API changes from code modifications
+- Update architectural diagrams from structure changes
+- Generate troubleshooting guides from error patterns
+```
+
+**AURA Workflow Integration:**
+```markdown
+## AI-Assisted Documentation Workflow
+1. **Plan Analysis**: Read current [plan.md](mdc:plan.md) state
+2. **Context Gathering**: Analyze codebase and implementation progress
+3. **Documentation Generation**: Create/update relevant doc sections
+4. **Cross-Reference Validation**: Ensure consistency across all docs
+5. **Integration Sync**: Update [plan.md](mdc:plan.md) documentation links
+```
+
+## 🔗 Plan.md Integration Patterns
+
+### 📋 Automatic Documentation Links
+
+Ensure [plan.md](mdc:plan.md) always includes up-to-date documentation references:
+
+**Code Integration Links Section:**
+```markdown
+## 🔗 Code Integration Links
+- **Main Branch**: [repository link]
+- **Feature Branches**: [active development branches]
+- **Documentation**: [docs/README.md](mdc:docs/README.md) - Master development guide
+- **API Reference**: [docs/api.md](mdc:docs/api.md) - Complete API documentation
+- **UI Components**: [docs/components.md](mdc:docs/components.md) - Component library
+- **Deployment**: [docs/deployment.md](mdc:docs/deployment.md) - Platform deployment
+- **Domain Guide**: [docs/domain-guide.md](mdc:docs/domain-guide.md) - Domain requirements
+- **Testing**: [docs/testing.md](mdc:docs/testing.md) - QA procedures
+- **Architecture**: [docs/architecture.md](mdc:docs/architecture.md) - System design
+- **Troubleshooting**: [docs/troubleshooting.md](mdc:docs/troubleshooting.md) - Issue resolution
+```
+
+### 🎯 Documentation Task Integration
+
+Auto-add documentation tasks to [plan.md](mdc:plan.md) when needed:
+
+```markdown
+### 📚 Documentation Tasks (Auto-Generated)
+- [ ] 🟡 Update API documentation for new endpoints (@dev, 0.5d)
+- [ ] 🟡 Refresh component documentation after UI changes (@dev, 0.5d) 
+- [ ] 🟡 Update deployment guide for platform-specific changes (@dev, 0.5d)
+- [ ] 🟡 Sync architecture documentation with design decisions (@dev, 0.5d)
+- [ ] 🟡 Update domain guide with new requirements (@dev, 0.5d)
+```
+
+## 🚀 Generation Triggers and Automation
+
+### ⚡ Automatic Generation Events
+
+**Trigger Conditions:**
+1. **Plan Updates**: When [plan.md](mdc:plan.md) tasks are marked complete
+2. **Code Changes**: When significant code modifications are detected
+3. **Phase Transitions**: When project phases are completed
+4. **Goal Changes**: When project goals or milestones are modified
+5. **Manual Request**: When user explicitly requests documentation updates
+
+**Generation Process:**
+1. **Read Current State**: Analyze [plan.md](mdc:plan.md) and codebase
+2. **Identify Changes**: Detect what documentation needs updating
+3. **Generate Content**: Create/update relevant documentation sections
+4. **Validate Consistency**: Ensure all documentation is synchronized
+5. **Update References**: Refresh links in [plan.md](mdc:plan.md)
+
+### 🔄 Maintenance Automation
+
+**Weekly Documentation Review:**
+- Scan [plan.md](mdc:plan.md) for completed tasks needing documentation
+- Check for outdated information in existing docs
+- Identify missing documentation for new features
+- Generate update recommendations
+
+**Milestone Documentation:**
+- Generate comprehensive documentation updates at milestone completion
+- Create retrospective documentation from milestone achievements
+- Update architectural documentation based on implementation learnings
+- Refresh deployment guides based on infrastructure evolution
+
+## 💡 Smart Documentation Features
+
+### 🧠 Context-Aware Content
+
+**Phase-Specific Documentation:**
+- **Planning Phase**: Focus on architecture and setup guides
+- **Development Phase**: Emphasize implementation patterns and API docs
+- **Testing Phase**: Prioritize testing procedures and quality assurance
+- **Deployment Phase**: Highlight deployment guides and troubleshooting
+
+**Role-Specific Documentation:**
+- **Developers**: Technical implementation guides and API references
+- **Testers**: Testing procedures and quality assurance protocols
+- **DevOps**: Deployment guides and infrastructure documentation
+- **Project Managers**: Progress tracking and milestone documentation
+
+### 📊 Documentation Metrics
+
+**Quality Tracking:**
+- Documentation coverage percentage based on codebase size
+- Freshness indicators showing last update dates
+- Completeness score based on [plan.md](mdc:plan.md) task coverage
+- User feedback integration for documentation effectiveness
+
+**Auto-Generated Metrics:**
+```markdown
+## 📊 Documentation Health
+- **Coverage**: 85% (34/40 modules documented)
+- **Freshness**: 92% (updated within last week)
+- **Completeness**: 78% (links to 31/40 plan.md tasks)
+- **Last Generated**: 2025-06-28 (ISO 8601 format)
+```
+
+## 🎯 Implementation Guidelines
+
+### 📋 Generation Workflow
+
+**When User Requests Documentation Updates:**
+1. **Analyze Current State**: Read [plan.md](mdc:plan.md) thoroughly
+2. **Identify Documentation Gaps**: Compare with existing docs in ./docs
+3. **Generate Missing Content**: Create comprehensive documentation
+4. **Update Existing Content**: Refresh outdated or incomplete sections
+5. **Sync References**: Update all cross-references and links
+6. **Validate Integration**: Ensure AURA principles are maintained
+
+**Content Generation Principles:**
+- **Comprehensive**: Cover all aspects of development, deployment, and maintenance
+- **Current**: Reflect the actual state of the project and codebase
+- **Actionable**: Provide clear steps and implementation guidance
+- **Linked**: Connect to specific tasks and goals in [plan.md](mdc:plan.md)
+- **Maintained**: Keep documentation synchronized with project evolution
+- **Timestamped**: Always use ISO 8601 date format (YYYY-MM-DD) instead of placeholders like "Today" or "[timestamp]"
+
+### 🕒 Dynamic Date Generation
+
+**Get Current Date via Terminal (ISO 8601):**
+```bash
+# Get ISO 8601 formatted date for documentation
+date +"%Y-%m-%d"
+# Example output: "2025-06-28"
+```
+
+**Get Current Date via JavaScript (ISO 8601):**
+```javascript
+// Get current date in ISO 8601 format
+const currentDate = new Date().toISOString().split('T')[0];
+// Example output: "2025-06-28"
+```
+
+**Usage in Documentation Updates:**
+- Always use dynamically generated current date for new entries
+- Preserve historical dates for existing entries
+- Format consistently as ISO 8601 "YYYY-MM-DD" across all documentation
+
+### 🔗 AURA Integration Requirements
+
+**Blueprint Protocol Documentation:**
+- Auto-sync documentation structure with [plan.md](mdc:plan.md) outline
+- Generate implementation guides for current goals and tasks
+- Maintain traceability from documentation to specific plan sections
+- Update documentation status within project planning framework
+- **Use actual dates**: Always format dates as "YYYY-MM-DD" (e.g., "2024-12-17") in AI Suggestions Log, Revision History, and Milestone sections
+
+**Context Protocol Documentation:**
+- Generate technical context from code analysis
+- Create environmental documentation from infrastructure setup
+- Maintain domain-specific guides based on business requirements
+- Update procedural documentation from workflow evolution
+
+**Action Protocol Documentation:**
+- Generate step-by-step implementation guides
+- Create troubleshooting procedures from error handling patterns
+- Maintain testing documentation from quality assurance activities
+- Update deployment procedures from release management practices
+
+## 🎯 Domain-Specific Adaptations
+
+### 📋 Flexible Domain Guide Generation
+
+The `domain-guide.md` file should be adapted based on project type and requirements:
+
+**For Compliance-Heavy Projects:**
+```markdown
+# [Domain] Compliance Guide
+- Regulatory requirements and implementation guidelines
+- Legal considerations and audit trails
+- Validation algorithms and compliance checks
+- Industry-specific standards and protocols
+```
+
+**For Business Applications:**
+```markdown
+# Business Requirements Guide
+- Business logic and workflow documentation
+- User roles and permission systems
+- Data governance and privacy requirements
+- Integration with external business systems
+```
+
+**For Technical Platforms:**
+```markdown
+# Technical Standards Guide
+- API design patterns and conventions
+- Security requirements and implementation
+- Performance benchmarks and optimization
+- Integration protocols and data formats
+```
+
+**For Educational/Research Projects:**
+```markdown
+# Research Methodology Guide
+- Research objectives and methodologies
+- Data collection and analysis procedures
+- Experimental design and validation approaches
+- Publication and presentation guidelines
+```
+
+### 🔄 Auto-Detection of Domain Requirements
+
+**Context-Based Domain Detection:**
+- Analyze [plan.md](mdc:plan.md) goals and notes for domain indicators
+- Detect compliance, business, technical, or research contexts
+- Generate appropriate domain guide structure automatically
+- Adapt content templates based on detected domain type
+
+## 🎉 Success Metrics
+
+**Documentation Excellence Indicators:**
+- Complete documentation coverage for all [plan.md](mdc:plan.md) phases
+- Real-time synchronization between planning and documentation
+- Comprehensive implementation guides for all project components
+- Actionable troubleshooting and deployment procedures
+- Seamless integration between AURA workflow and documentation maintenance
+
+**User Experience Goals:**
+- Developers can quickly find relevant implementation guidance
+- Documentation accurately reflects current project state
+- Setup and deployment procedures work without modification
+- Troubleshooting guides resolve common issues effectively
+- Project onboarding is streamlined through comprehensive documentation
+
+**Maintenance Efficiency:**
+- Documentation updates automatically with project evolution
+- Manual documentation maintenance is minimized
+- Consistency is maintained across all documentation artifacts
+- Documentation quality improves continuously through AI enhancement
+- Integration with AURA workflow eliminates documentation drift
+
+## 🔄 Continuous Improvement
+
+**Documentation Evolution:**
+- Learn from user feedback and documentation usage patterns
+- Identify frequently needed information and prioritize in generation
+- Optimize documentation structure based on project workflow
+- Enhance generation algorithms based on documentation effectiveness
+- Integrate new documentation patterns from development best practices
+
+**AURA Integration Enhancement:**
+- Deepen integration with AURA planning workflow
+- Improve automatic status synchronization between plan and documentation
+- Enhance predictive documentation generation based on project patterns
+- Optimize documentation triggers for maximum development efficiency
+- Evolve documentation templates based on project-specific needs
