@@ -325,7 +325,7 @@ function validateGstinChecksum(gstin: string): boolean {
 
 	// Calculate checksum for first 14 characters
 	for (let i = gstin.length - 2; i >= 0; i--) {
-		let codePoint = codePointChars.indexOf(gstin[i]);
+		const codePoint = codePointChars.indexOf(gstin[i]);
 		if (codePoint === -1) return false; // Invalid character
 
 		let digit = factor * codePoint;
