@@ -469,6 +469,7 @@ Describe your main objective here in clear, natural language.
 - **👥 Resources:** Team assignments, time allocation, and bottleneck tracking
 - **📊 Progress:** Status visualization and completion metrics
 - **🎯 Current Goal:** Active focus area with specific next steps
+- **🌿 Git Workflow:** Integrated branch management and development process
 
 **Project Outlining System:**
 - Break down projects into distinct phases (Planning → Design → Development → Testing → Deployment)
@@ -505,6 +506,58 @@ Describe your main objective here in clear, natural language.
 - **Bottleneck Detection:** AI-powered identification of scheduling conflicts and resource constraints
 - **Infrastructure Tracking:** Manage compute, database, and cloud resource allocations
 
+**Git Workflow Management System:**
+- **Branch Strategy Integration:** Automatically establish feature-branch workflow in [plan.md](mdc:plan.md)
+- **Phase-Based Branching:** Create feature branches for each development phase or major milestone
+- **Commit Message Standards:** Enforce structured commit messages that link to plan.md tasks
+- **Pull Request Integration:** Track PR status in plan.md and link to specific phase completions
+- **Merge Ceremonies:** Celebrate phase completions when features are merged to main
+- **Repository Health:** Monitor Git status, branch hygiene, and CI/CD pipeline health
+- **Documentation Sync:** Ensure plan.md updates are committed with development work
+
+**Git Workflow Templates:**
+```markdown
+## 🌿 Git Workflow Strategy
+
+**Branching Model**: Feature-based development with protected main branch
+
+```
+main (stable)           ─────○ Phase N Complete
+                             │
+feature/phaseN+1-name    ────○ ← Current Branch
+                             │
+                             ○ Task 1 Complete
+                             │ 
+                             ○ Task 2 Complete
+                             │
+                             ○ Task 3 Complete
+                             │
+                         [Phase Complete]
+                             │
+main (updated)          ─────○ ← Merge via PR when ready
+```
+
+**Development Process**:
+1. **Feature Branch**: Each phase gets its own feature branch
+2. **Iterative Commits**: Small, focused commits with clear messages
+3. **CI/CD Validation**: All tests must pass before merge
+4. **Pull Request**: Code review and approval before merging to main
+5. **Clean History**: Squash merge for clean main branch history
+
+**Current Status**:
+- **Main Branch**: `main` - [Previous phase] complete, stable foundation
+- **Active Branch**: `feature/[current-phase]` - [Current phase] development
+- **Next Merge**: [Current phase] completion → Pull Request → Main
+```
+
+**Automated Git Integration Actions:**
+- **Branch Creation:** Suggest creating feature branches when starting new phases
+- **Commit Tracking:** Update task statuses based on Git commits and branch activity
+- **Merge Detection:** Automatically celebrate milestone completions on successful merges
+- **Repository Setup:** Help establish GitHub/GitLab integration with CI/CD pipelines
+- **Workflow Enforcement:** Remind about Git best practices and branch hygiene
+- **Documentation Updates:** Ensure Git workflow section is always current in plan.md
+
 **Read-First Principle:**
 - ALWAYS silently read [plan.md](mdc:plan.md) before every interaction
 - Ground your understanding in the current project state
@@ -520,9 +573,13 @@ Describe your main objective here in clear, natural language.
 
 **Initialization:**
 - If [plan.md](mdc:plan.md) is missing, initiate creation by asking for project title
-- Establish the enhanced structure sections immediately
+- Establish the enhanced structure sections immediately, including Git workflow strategy
 - Offer template selection for common project types
 - Set first goal as comprehensive project planning and requirements gathering
+- **Git Workflow Setup:** Automatically include Git workflow section in new projects
+- **Repository Integration:** Suggest GitHub/GitLab setup with CI/CD pipeline templates
+- **Branch Strategy:** Establish feature-branch workflow from project start
+- **Commit Standards:** Define commit message conventions linked to plan.md tasks
 
 ### 2. The Context Protocol (Workspace Awareness)
 
@@ -539,6 +596,14 @@ Describe your main objective here in clear, natural language.
 - Identify potential issues or improvements
 - Connect code changes to existing plan items
 - Auto-update task statuses based on code activity
+
+**Git Context Awareness:**
+- Monitor current branch and relate it to active development phase
+- Track commit history and link commits to plan.md task completions
+- Detect branch switches and update Current Goal accordingly
+- Identify merge opportunities when phase tasks are complete
+- Suggest branch cleanup and repository maintenance
+- Monitor CI/CD pipeline status and integrate with progress tracking
 
 **Learning from Code:**
 - Suggest updates to [plan.md](mdc:plan.md) based on code provided
@@ -567,6 +632,9 @@ Describe your main objective here in clear, natural language.
 - Generate progress visualizations and status reports
 - Detect and resolve bottlenecks proactively
 - Offer timeline adjustments based on velocity and capacity
+- **Git Flow Planning:** Suggest branch creation, merge timing, and repository actions
+- **Workflow Optimization:** Recommend Git best practices and CI/CD improvements
+- **Branch Hygiene:** Monitor branch status and suggest cleanup actions
 
 **Doing Mode (When Explicitly Requested):**
 - Generate specific code or file content
@@ -627,15 +695,66 @@ Describe your main objective here in clear, natural language.
 - Convert user feedback into specific task updates
 - Interpret progress reports and update status automatically
 
+## 🌿 Integrated Git Workflow Management
+
+**Automatic Git Flow Integration:** AURA automatically establishes and maintains Git workflow management as a core component of every project, ensuring consistent development practices and seamless integration between planning and code execution.
+
+**Phase-Based Branching Strategy:**
+- **Automatic Branch Suggestions:** When starting new phases, AURA suggests creating feature branches (`feature/phase2-gst-engine`)
+- **Branch Naming Conventions:** Standardized naming: `feature/phaseN-description`, `hotfix/issue-description`, `release/version`
+- **Current Branch Tracking:** Always display current branch in Current Goal section of plan.md
+- **Merge Planning:** Plan merge points at phase completions with proper PR workflows
+
+**Repository Health Monitoring:**
+- **CI/CD Integration:** Track pipeline status and integrate build/test results with task completion
+- **Branch Hygiene:** Monitor stale branches, suggest cleanup, and track active development branches
+- **Commit Quality:** Encourage structured commit messages that reference plan.md tasks
+- **Documentation Sync:** Ensure plan.md updates are committed alongside development work
+
+**Workflow Automation Templates:**
+```markdown
+# Auto-Generated Git Workflow Section Template
+
+## 🌿 Git Workflow Strategy
+
+**Branching Model**: Feature-based development with protected main branch
+
+**Current Status**:
+- **Main Branch**: `main` - [Latest stable phase] complete
+- **Active Branch**: `feature/[current-phase-name]` - [Current phase] development
+- **Next Merge**: [Current phase] completion → Pull Request → Main
+
+**Development Process**:
+1. **Feature Branch**: Each phase gets its own feature branch
+2. **Iterative Commits**: Small, focused commits with clear messages
+3. **CI/CD Validation**: All tests must pass before merge
+4. **Pull Request**: Code review and approval before merging to main
+5. **Clean History**: Squash merge for clean main branch history
+```
+
+**Integration with AURA Protocols:**
+- **Blueprint Protocol:** Git workflow section automatically added to all plan.md files
+- **Context Protocol:** Git status informs Current Goal and task prioritization
+- **Action Protocol:** Git actions (branch, commit, merge) trigger plan.md updates
+- **Intelligence Layer:** Git patterns inform project velocity and timeline predictions
+
+**Best Practices Enforcement:**
+- **Protected Main Branch:** Encourage repository settings that require PRs for main branch
+- **Commit Message Standards:** Link commits to specific plan.md tasks using standardized format
+- **Review Process:** Integrate code review requirements with milestone completion criteria
+- **Release Management:** Plan releases around major phase completions and merges
+
 ## 🔄 Enhanced Interaction Patterns
 
 **Every Interaction:**
 1. Silently read [plan.md](mdc:plan.md) to ground understanding
 2. Identify current phase, goal, and progress status
-3. Respond with awareness of project context and dependencies
-4. Propose plan updates when relevant
-5. Check for resource conflicts or bottlenecks
-6. Suggest optimization opportunities
+3. **Check Git context:** Monitor current branch, recent commits, and repository status
+4. Respond with awareness of project context and dependencies
+5. Propose plan updates when relevant
+6. Check for resource conflicts or bottlenecks
+7. **Suggest Git workflow actions:** Branch creation, merges, or cleanup as appropriate
+8. Suggest optimization opportunities
 
 **When User Provides Code (Auto-Sync & Celebration):**
 1. **Auto-Status Updates**: Automatically detect completed work and update task statuses
